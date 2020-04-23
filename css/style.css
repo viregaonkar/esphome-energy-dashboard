@@ -1,0 +1,306 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*Main Styling*/
+html, body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.7em;
+    letter-spacing: 2px;
+    background: #001519;
+    color: #fff;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+h1, h2, h3 {
+    padding-bottom: 20px;
+}
+
+p {
+    margin: 10px 0;
+}
+
+.text-primary {
+    color: #35daff;
+}
+
+.lead {
+    font-size: 20px;
+}
+
+.btn {
+    display: inline-block;
+    color: #fff;
+    font-size: 30px;
+    background: #001519;
+    padding: 20px 40px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 5px 10px 0 rgb(0, 0, 0, 0.5);
+}
+
+.btn:hover {
+    background: #002a33;
+    color: #b2f1ff;    
+}
+/*utility classes */
+/* max width limits the contents of container elements to the pixel value mentioned, ie if the window ie extended, all the lables, headings, lists, will not exceed the max-width. (increases responsiveness). margin auto aligns it to centre*/
+.container {
+    margin: auto;
+    max-width: 1300px;    
+}
+
+/* Nav bar*/
+
+#navbar {
+    background: #001519;
+    overflow: auto;  
+    position: sticky;
+    top: 0;
+    box-shadow: 0px 15px 30px 0 rgb(0, 0, 0, 0.5);
+}
+
+#navbar a {
+    color: #fff;
+}
+
+#navbar .logo {
+    float: left;
+    padding: 20px 12.4px;
+}
+
+#navbar ul {
+    float: right;
+    list-style: none;
+}
+
+#navbar ul li {
+    float: left;
+}
+
+#navbar ul li a {
+    display: block;
+    padding: 20px;
+    text-align: center;
+}
+
+#navbar ul li a:hover {
+    background: #002a33;
+    color: #b2f1ff;    
+}
+
+/* properties same as that of hover since we are on the current page*/
+#navbar ul li a.current {
+    background: #002a33;
+    color: #b2f1ff;   
+}
+
+/*showcase*/
+
+#showcase {
+    background: url('../hotelwb/wb1/top.jpg');
+    background-size: cover;
+    max-height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding-bottom: 200px;
+    
+}
+
+#showcase .showcase-content {
+    color: #fff;
+    text-align: center;
+    padding-top: 200px;
+}
+
+#showcase .showcase-content h1 {
+    font-size: 90px;
+    line-height: 1.2em;
+}
+
+#showcase .showcase-content p {
+    padding-bottom: 200px;
+    padding-left: 30px;
+    padding-right: 30px;
+    line-height: 1.5em;
+}
+
+
+/*sections*/
+
+.box {
+    color: white;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    background: #001519;
+    text-align: center;
+    box-sizing: border-box;
+    border-bottom: 1px #002a33 solid;
+    /*max-width: 450px;*/
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+/*#box1 {
+    float: left;
+    width: 50%;
+} 
+
+#box2 {
+    float: right;
+    width: 50%;
+}
+
+#box2 {
+    float: right;
+    width: 50%;
+}*/
+
+#section{
+    padding-top: 20px;
+    padding-bottom: 30px;
+    background: #001519;
+}
+
+#section .box h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #7be7ff;
+    text-align: center;
+}
+
+
+/* About Page*/
+
+#about-info {
+    background: url('../hotelwb/wb1/top.jpg');
+    background-size: cover;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+#about-info .info-left img {
+    display: block;
+    margin: auto;
+    width: 250px;
+    height: 250px;
+    border: #fff 5px solid;
+    box-shadow: 0px 15px 30px 0 rgb(0, 0, 0, 0.5);
+    
+}
+
+#about-info .info-right {
+    display: block;
+    margin: auto;
+    margin-top: 35px;
+    margin-left: 30px;
+    margin-right: 30px;
+    color: #fff;
+    text-align: center;
+    padding: 50px;
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 15px 20px 0 rgb(0, 0, 0, 0.3);
+    
+}
+
+#about-info .info-right h1 {
+    font-size: 40px;
+    padding-top: 10px;
+    padding-bottom: 50px;
+    line-height: 45px;
+}
+
+#about-info .info-right p {
+    font-size: 18px;
+}
+
+#testimonials {
+    height: 100%;
+    background-color: #001519;
+    color: #b2f1ff;
+    display: block;
+
+}
+
+#testimonials .testimonial {
+    padding: 20px;
+    margin-bottom: 40px;
+    background: #002a33;
+    margin-right: 30px;
+    margin-left: 30px;
+    box-shadow: 0px 15px 30px 0 rgb(0, 0, 0, 1);
+   
+}
+
+#testimonials .testimonial img {
+    width: 130px;
+    height: 130px;
+    float: left;
+    margin-right: 20px;
+    border-radius: 50%;
+    border: #7be7ff solid 1px;
+}
+
+
+#testimonials h1 {
+    text-align: center;
+    color: #fff;
+    padding: 60px 20px;
+    font-size: 40px;
+    background: #001519;
+}
+
+
+
+/*footer*/
+
+
+#footer {
+    background: #002a33;
+    overflow: auto;
+}
+
+#footer i {
+    color: #001519;
+}
+
+#footer ul li {
+    float: right;
+    list-style: none;
+    
+
+}
+
+#footer ul li a {
+    display: block;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    padding-top: 25px;
+}
+
+#footer ul li i:hover {
+    color: #7be7ff;
+}
+
+#footer h1 {
+    float: left;
+    color: #b2f1ff;
+    font-size: 16px;
+    padding-top: 28px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
