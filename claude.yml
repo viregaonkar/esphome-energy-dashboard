@@ -127,6 +127,16 @@ sensor:
     id: battery_soc
     entity_id: sensor.battery_soc
     internal: true
+  
+  - platform: homeassistant
+    id: gas_power
+    entity_id: sensor.gas_power
+    internal: true
+  
+  - platform: homeassistant
+    id: water_power
+    entity_id: sensor.water_power
+    internal: true
 
 # Zeit von Home Assistant
 time:
@@ -144,519 +154,369 @@ lvgl:
   touchscreens:
     - tft_touch
   
-  # Style Definitionen
-  style_definitions:
-    - id: style_circle
-      bg_opa: TRANSP
-      border_width: 0
-      pad_all: 0
-      radius: 1000
-    
-    - id: style_arc_green
-      arc_width: 8
-      arc_color: 0x00FF00
-      arc_rounded: true
-    
-    - id: style_arc_red
-      arc_width: 8
-      arc_color: 0xFF0000
-      arc_rounded: true
-    
-    - id: style_arc_blue
-      arc_width: 8
-      arc_color: 0x3399FF
-      arc_rounded: true
-    
-    - id: style_arc_yellow
-      arc_width: 8
-      arc_color: 0xFFAA00
-      arc_rounded: true
-  
   # Widgets
   pages:
     - id: main_page
-      bg_color: 0x000000
+      bg_color: 0x1a1a1a
       widgets:
-        # Zeit Display oben
-        - label:
-            id: time_label
-            align: TOP_MID
-            y: 15
-            text: "12:14"
-            text_font: roboto_32
-            text_color: 0x4488FF
+        # === Energiefluss Linien (dunkel/transparent) ===
         
-        # === Energiefluss Linien mit Kurven (transparente Linien) ===
-        # Solar -> Mitte (nach unten, dann rechts mit Kurve)
+        # PV -> Home (vertikal mit Kurve nach rechts)
         - line:
-            id: line_solar_v
             points:
-              - 100, 190
-              - 100, 230
-            line_color: 0x003300
-            line_width: 4
-        - line:
-            id: line_solar_curve
-            points:
-              - 100, 230
-              - 110, 235
-              - 120, 238
-            line_color: 0x003300
-            line_width: 4
-        - line:
-            id: line_solar_h
-            points:
-              - 120, 238
-              - 210, 238
-            line_color: 0x003300
-            line_width: 4
+              - 240, 130
+              - 240, 180
+              - 242, 190
+              - 246, 200
+              - 252, 208
+              - 262, 216
+              - 275, 222
+              - 290, 228
+              - 310, 232
+              - 360, 238
+            line_color: 0x332211
+            line_width: 3
+            line_rounded: true
         
-        # Mitte -> Grid (nach rechts, dann hoch mit Kurve)
+        # Netz -> Home (horizontal)
         - line:
-            id: line_grid_h
             points:
-              - 270, 220
-              - 360, 220
-            line_color: 0x330000
-            line_width: 4
-        - line:
-            id: line_grid_curve
-            points:
-              - 360, 220
-              - 370, 210
-              - 378, 195
-            line_color: 0x330000
-            line_width: 4
-        - line:
-            id: line_grid_v
-            points:
-              - 378, 195
-              - 378, 190
-            line_color: 0x330000
-            line_width: 4
+              - 130, 240
+              - 180, 240
+              - 220, 240
+              - 260, 240
+              - 310, 240
+            line_color: 0x223344
+            line_width: 3
+            line_rounded: true
         
-        # Mitte -> Home (direkt horizontal)
+        # Batterie -> Home (vertikal mit Kurve nach rechts)
         - line:
-            id: line_home
             points:
-              - 270, 260
-              - 330, 260
-            line_color: 0x003300
-            line_width: 4
+              - 240, 350
+              - 240, 300
+              - 242, 290
+              - 246, 280
+              - 252, 272
+              - 262, 264
+              - 275, 258
+              - 290, 252
+              - 310, 248
+              - 360, 242
+            line_color: 0x332233
+            line_width: 3
+            line_rounded: true
         
-        # Battery -> Mitte (nach oben, dann rechts mit Kurve)
+        # Gas -> Home (vertikal nach unten)
         - line:
-            id: line_battery_v
             points:
-              - 100, 330
-              - 100, 285
-            line_color: 0x002244
-            line_width: 4
-        - line:
-            id: line_battery_curve
-            points:
-              - 100, 285
-              - 110, 278
-              - 120, 275
-            line_color: 0x002244
-            line_width: 4
-        - line:
-            id: line_battery_h
-            points:
-              - 120, 275
-              - 210, 275
-            line_color: 0x002244
-            line_width: 4
+              - 360, 130
+              - 360, 160
+              - 360, 190
+            line_color: 0x332211
+            line_width: 3
+            line_rounded: true
         
-        # Mitte -> Backup (nach rechts, dann runter mit Kurve)
+        # Wasser -> Home (vertikal nach oben)
         - line:
-            id: line_backup_h
             points:
-              - 270, 295
-              - 360, 295
-            line_color: 0x003300
-            line_width: 4
-        - line:
-            id: line_backup_curve
-            points:
-              - 360, 295
-              - 370, 305
-              - 378, 320
-            line_color: 0x003300
-            line_width: 4
-        - line:
-            id: line_backup_v
-            points:
-              - 378, 320
-              - 378, 330
-            line_color: 0x003300
-            line_width: 4
+              - 360, 350
+              - 360, 320
+              - 360, 290
+            line_color: 0x223344
+            line_width: 3
+            line_rounded: true
         
-        # Animierte Energiefluss-Segmente (leuchtende Teile)
+        # === Animierte Energiefluss Segmente ===
         - obj:
-            id: flow_segment_solar
-            x: 100
-            y: 190
+            id: flow_pv
+            x: 238
+            y: 130
             width: 4
-            height: 20
-            bg_color: 0x00FF00
+            height: 15
+            bg_color: 0xFFBB33
             radius: 2
             border_width: 0
         
         - obj:
-            id: flow_segment_grid
-            x: 270
-            y: 218
-            width: 20
+            id: flow_grid
+            x: 130
+            y: 238
+            width: 15
             height: 4
-            bg_color: 0xFF0000
+            bg_color: 0x00BBFF
             radius: 2
             border_width: 0
         
         - obj:
-            id: flow_segment_battery
-            x: 100
-            y: 310
+            id: flow_battery
+            x: 238
+            y: 330
             width: 4
-            height: 20
-            bg_color: 0x3399FF
+            height: 15
+            bg_color: 0xFF3399
             radius: 2
             border_width: 0
         
         - obj:
-            id: flow_segment_home
-            x: 270
-            y: 258
-            width: 20
+            id: flow_home
+            x: 350
+            y: 238
+            width: 15
             height: 4
-            bg_color: 0x00FF00
+            bg_color: 0x00FF99
             radius: 2
             border_width: 0
         
         - obj:
-            id: flow_segment_backup
-            x: 270
-            y: 293
-            width: 20
-            height: 4
-            bg_color: 0x00FF00
+            id: flow_gas
+            x: 438
+            y: 170
+            width: 4
+            height: 15
+            bg_color: 0xFF6666
             radius: 2
             border_width: 0
         
-        # === LEAF ICON Mitte mit Border ===
         - obj:
-            id: center_circle
-            align: CENTER
-            x: 0
-            y: 0
-            width: 70
-            height: 70
-            bg_color: 0x001100
-            border_color: 0x00AA44
-            border_width: 3
-            radius: 35
-            widgets:
-              - label:
-                  align: CENTER
-                  text: "\U000F0DEE"
-                  text_font: icons_48
-                  text_color: 0x00DD66
+            id: flow_water
+            x: 438
+            y: 290
+            width: 4
+            height: 15
+            bg_color: 0x00DDFF
+            radius: 2
+            border_width: 0
         
-        # === SOLAR (Links Oben) ===
+        # === PV (Oben Mitte) ===
         - obj:
-            id: solar_circle
-            x: 50
-            y: 90
+            id: pv_circle
+            x: 190
+            y: 30
             width: 100
             height: 100
-            bg_color: 0x001100
-            border_color: 0x00FF00
+            bg_color: 0x0a0a0a
+            border_color: 0xFFBB33
             border_width: 3
             radius: 50
-            pad_all: 5
             scrollbar_mode: "off"
             clickable: false
             widgets:
-              - arc:
-                  id: solar_arc
-                  align: CENTER
-                  width: 90
-                  height: 90
-                  start_angle: 270
-                  end_angle: 270
-                  rotation: 0
-                  value: 0
-                  min_value: 0
-                  max_value: 100
-                  arc_color: 0x003300
-                  arc_width: 8
-                  indicator:
-                    arc_color: 0x00FF00
-                    arc_width: 8
-              
               - label:
-                  id: solar_icon
                   align: CENTER
                   y: -15
-                  text: "\U000F0A72"  # mdi:solar-power
+                  text: "\U000F0A72"
                   text_font: icons_32
-                  text_color: 0x00FF00
+                  text_color: 0xFFBB33
               
               - label:
-                  id: solar_value
+                  id: pv_value
                   align: CENTER
                   y: 10
-                  text: "0.0"
+                  text: "0.12"
                   text_font: roboto_16
                   text_color: 0xFFFFFF
               
               - label:
                   align: CENTER
-                  y: 30
-                  text: "kW"
-                  text_font: roboto_16
+                  y: 28
+                  text: "kWh"
+                  text_font: roboto_12
                   text_color: 0x888888
         
-        # === GRID (Rechts Oben) ===
+        # === NETZ (Links) ===
         - obj:
             id: grid_circle
-            x: 330
-            y: 90
+            x: 30
+            y: 190
             width: 100
             height: 100
-            bg_color: 0x110000
-            border_color: 0xFF0000
+            bg_color: 0x0a0a0a
+            border_color: 0x00BBFF
             border_width: 3
             radius: 50
             scrollbar_mode: "off"
             clickable: false
             widgets:
-              - arc:
-                  id: grid_arc
-                  align: CENTER
-                  width: 90
-                  height: 90
-                  start_angle: 270
-                  end_angle: 270
-                  value: 0
-                  min_value: 0
-                  max_value: 100
-                  arc_color: 0x330000
-                  arc_width: 8
-                  indicator:
-                    arc_color: 0xFF0000
-                    arc_width: 8
-              
               - label:
                   align: CENTER
                   y: -15
-                  text: "\U000F0239"  # mdi:transmission-tower
+                  text: "\U000F0239"
                   text_font: icons_32
-                  text_color: 0xFF0000
+                  text_color: 0x00BBFF
               
               - label:
                   id: grid_value
                   align: CENTER
                   y: 10
-                  text: "0.0"
+                  text: "0.00"
                   text_font: roboto_16
                   text_color: 0xFFFFFF
               
               - label:
                   align: CENTER
-                  y: 30
-                  text: "kW"
-                  text_font: roboto_16
+                  y: 28
+                  text: "kWh"
+                  text_font: roboto_12
                   text_color: 0x888888
-        
-        # === LEAF ICON Mitte ===
-        - label:
-            align: CENTER
-            x: 0
-            y: 0
-            text: "\U000F0DEE"  # mdi:leaf
-            text_font: icons_48
-            text_color: 0x00AA44
         
         # === HOME (Rechts Mitte) ===
         - obj:
             id: home_circle
-            x: 330
-            y: 210
+            x: 310
+            y: 190
             width: 100
             height: 100
-            bg_color: 0x001100
-            border_color: 0x00FF00
+            bg_color: 0x0a0a0a
+            border_color: 0x00FF99
             border_width: 3
             radius: 50
             scrollbar_mode: "off"
             clickable: false
             widgets:
-              - arc:
-                  id: home_arc
-                  align: CENTER
-                  width: 90
-                  height: 90
-                  start_angle: 270
-                  end_angle: 270
-                  value: 0
-                  min_value: 0
-                  max_value: 100
-                  arc_color: 0x003300
-                  arc_width: 8
-                  indicator:
-                    arc_color: 0x00FF00
-                    arc_width: 8
-              
               - label:
                   align: CENTER
                   y: -15
-                  text: "\U000F02DC"  # mdi:home
+                  text: "\U000F02DC"
                   text_font: icons_32
-                  text_color: 0x00FF00
+                  text_color: 0x00FF99
               
               - label:
                   id: home_value
                   align: CENTER
                   y: 10
-                  text: "0.0"
+                  text: "7.62"
                   text_font: roboto_16
                   text_color: 0xFFFFFF
               
               - label:
                   align: CENTER
-                  y: 30
-                  text: "kW"
-                  text_font: roboto_16
+                  y: 28
+                  text: "kWh"
+                  text_font: roboto_12
                   text_color: 0x888888
         
-        # === BATTERY (Links Unten) ===
+        # === BATTERIE (Unten Mitte) ===
         - obj:
             id: battery_circle
-            x: 50
-            y: 330
+            x: 190
+            y: 350
             width: 100
             height: 100
-            bg_color: 0x001122
-            border_color: 0x3399FF
+            bg_color: 0x0a0a0a
+            border_color: 0xFF3399
             border_width: 3
             radius: 50
             scrollbar_mode: "off"
             clickable: false
             widgets:
-              - arc:
-                  id: battery_arc
-                  align: CENTER
-                  width: 90
-                  height: 90
-                  start_angle: 270
-                  end_angle: 270
-                  value: 0
-                  min_value: 0
-                  max_value: 100
-                  arc_color: 0x002244
-                  arc_width: 8
-                  indicator:
-                    arc_color: 0x3399FF
-                    arc_width: 8
-              
               - label:
                   align: CENTER
                   y: -15
-                  text: "\U000F0079"  # mdi:battery
+                  text: "\U000F0079"
                   text_font: icons_32
-                  text_color: 0x3399FF
+                  text_color: 0xFF3399
               
               - label:
                   id: battery_value
                   align: CENTER
                   y: 10
-                  text: "0.0"
+                  text: "0.00"
                   text_font: roboto_16
                   text_color: 0xFFFFFF
               
               - label:
                   align: CENTER
-                  y: 30
-                  text: "kW"
-                  text_font: roboto_16
+                  y: 28
+                  text: "kWh"
+                  text_font: roboto_12
                   text_color: 0x888888
         
-        # === BACKUP HOME (Rechts Unten) ===
+        # === GAS (Rechts Oben) ===
         - obj:
-            id: backup_circle
-            x: 330
-            y: 330
+            id: gas_circle
+            x: 310
+            y: 30
             width: 100
             height: 100
-            bg_color: 0x001100
-            border_color: 0x00FF00
+            bg_color: 0x0a0a0a
+            border_color: 0xFF6666
             border_width: 3
             radius: 50
             scrollbar_mode: "off"
             clickable: false
             widgets:
-              - arc:
-                  id: backup_arc
-                  align: CENTER
-                  width: 90
-                  height: 90
-                  start_angle: 270
-                  end_angle: 270
-                  value: 0
-                  min_value: 0
-                  max_value: 100
-                  arc_color: 0x003300
-                  arc_width: 8
-                  indicator:
-                    arc_color: 0x00FF00
-                    arc_width: 8
-              
               - label:
                   align: CENTER
                   y: -15
-                  text: "\U000F0ADB"  # mdi:home-lightning-bolt
+                  text: "\U000F02E4"
                   text_font: icons_32
-                  text_color: 0x00FF00
+                  text_color: 0xFF6666
               
               - label:
-                  id: backup_value
+                  id: gas_value
                   align: CENTER
                   y: 10
-                  text: "0.0"
+                  text: "1.42"
                   text_font: roboto_16
                   text_color: 0xFFFFFF
               
               - label:
                   align: CENTER
-                  y: 30
-                  text: "Backup"
-                  text_font: roboto_16
+                  y: 28
+                  text: "m³"
+                  text_font: roboto_12
                   text_color: 0x888888
         
-        # System Info
-        - label:
-            id: system_info
-            align: BOTTOM_LEFT
-            x: 5
-            y: -5
-            text: "System OK"
-            text_font: roboto_16
-            text_color: 0x666666
+        # === WASSER (Rechts Unten) ===
+        - obj:
+            id: water_circle
+            x: 310
+            y: 350
+            width: 100
+            height: 100
+            bg_color: 0x0a0a0a
+            border_color: 0x00DDFF
+            border_width: 3
+            radius: 50
+            scrollbar_mode: "off"
+            clickable: false
+            widgets:
+              - label:
+                  align: CENTER
+                  y: -15
+                  text: "\U000F058C"
+                  text_font: icons_32
+                  text_color: 0x00DDFF
+              
+              - label:
+                  id: water_value
+                  align: CENTER
+                  y: 10
+                  text: "0.11"
+                  text_font: roboto_16
+                  text_color: 0xFFFFFF
+              
+              - label:
+                  align: CENTER
+                  y: 28
+                  text: "m³"
+                  text_font: roboto_12
+                  text_color: 0x888888
 
 # Fonts
 font:
   - file: "gfonts://Roboto"
-    id: roboto_24
-    size: 24
+    id: roboto_12
+    size: 12
+  
+  - file: "gfonts://Roboto"
+    id: roboto_14
+    size: 14
   
   - file: "gfonts://Roboto"
     id: roboto_16
     size: 16
-  
-  - file: "gfonts://Roboto"
-    id: roboto_32
-    size: 32
   
   - file: "fonts/materialdesignicons-webfont.ttf"
     id: icons_32
@@ -666,210 +526,153 @@ font:
       "\U000F0239",  # transmission-tower
       "\U000F02DC",  # home
       "\U000F0079",  # battery
-      "\U000F0DEE",  # leaf
-      "\U000F0ADB",  # home-lightning-bolt
+      "\U000F02E4",  # fire (gas)
+      "\U000F058C",  # water
     ]
-  
-  - file: "fonts/materialdesignicons-webfont.ttf"
-    id: icons_48
-    size: 48
-    glyphs: ["\U000F0DEE"]
 
 # Updates
 interval:
   - interval: 1s
     then:
       - lvgl.label.update:
-          id: time_label
-          text: !lambda |-
-            auto time = id(ha_time).now();
-            if (time.is_valid()) {
-              static char buf[6];
-              snprintf(buf, sizeof(buf), "%02d:%02d", time.hour, time.minute);
-              return buf;
-            }
-            return "00:00";
-      
-      - lvgl.label.update:
-          id: solar_value
+          id: pv_value
           text: !lambda |-
             if (id(solar_power).has_state()) {
               static char buf[8];
-              snprintf(buf, sizeof(buf), "%.1f", id(solar_power).state);
+              snprintf(buf, sizeof(buf), "%.2f", id(solar_power).state);
               return buf;
             }
-            return "0.0";
-      
-      - lvgl.arc.update:
-          id: solar_arc
-          value: !lambda |-
-            if (id(solar_power).has_state()) {
-              int arc_val = (int)(id(solar_power).state / 5.0 * 100);
-              return arc_val > 100 ? 100 : arc_val;
-            }
-            return 0;
+            return "0.00";
       
       - lvgl.label.update:
           id: grid_value
           text: !lambda |-
             if (id(grid_power).has_state()) {
               static char buf[8];
-              snprintf(buf, sizeof(buf), "%.1f", abs(id(grid_power).state));
+              snprintf(buf, sizeof(buf), "%.2f", id(grid_power).state);
               return buf;
             }
-            return "0.0";
-      
-      - lvgl.arc.update:
-          id: grid_arc
-          value: !lambda |-
-            if (id(grid_power).has_state()) {
-              int arc_val = (int)(abs(id(grid_power).state) / 5.0 * 100);
-              return arc_val > 100 ? 100 : arc_val;
-            }
-            return 0;
+            return "0.00";
       
       - lvgl.label.update:
           id: home_value
           text: !lambda |-
             if (id(home_power).has_state()) {
               static char buf[8];
-              snprintf(buf, sizeof(buf), "%.1f", id(home_power).state);
+              snprintf(buf, sizeof(buf), "%.2f", id(home_power).state);
               return buf;
             }
-            return "0.0";
-      
-      - lvgl.arc.update:
-          id: home_arc
-          value: !lambda |-
-            if (id(home_power).has_state()) {
-              int arc_val = (int)(id(home_power).state / 5.0 * 100);
-              return arc_val > 100 ? 100 : arc_val;
-            }
-            return 0;
+            return "0.00";
       
       - lvgl.label.update:
           id: battery_value
           text: !lambda |-
             if (id(battery_power).has_state()) {
               static char buf[8];
-              snprintf(buf, sizeof(buf), "%.1f", abs(id(battery_power).state));
+              snprintf(buf, sizeof(buf), "%.2f", id(battery_power).state);
               return buf;
             }
-            return "0.0";
+            return "0.00";
       
-      - lvgl.arc.update:
-          id: battery_arc
-          value: !lambda |-
-            if (id(battery_soc).has_state()) {
-              return (int)id(battery_soc).state;
+      - lvgl.label.update:
+          id: gas_value
+          text: !lambda |-
+            if (id(gas_power).has_state()) {
+              static char buf[8];
+              snprintf(buf, sizeof(buf), "%.2f", id(gas_power).state);
+              return buf;
             }
-            return 0;
+            return "0.00";
+      
+      - lvgl.label.update:
+          id: water_value
+          text: !lambda |-
+            if (id(water_power).has_state()) {
+              static char buf[8];
+              snprintf(buf, sizeof(buf), "%.2f", id(water_power).state);
+              return buf;
+            }
+            return "0.00";
 
-  # Animation für Energiefluss-Segmente (transparente Linien mit leuchtendem Teil)
-  - interval: 50ms
+  # Animation - animierte Segmente entlang der Kurven
+  - interval: 30ms
     then:
       - lambda: |-
-          static int solar_pos = 0;
+          static int pv_pos = 0;
           static int grid_pos = 0;
           static int battery_pos = 0;
-          static int home_pos = 0;
-          static int backup_pos = 0;
+          static int gas_pos = 0;
+          static int water_pos = 0;
           
-          // Solar Segment Animation (vertical runter -> horizontal rechts)
-          solar_pos = (solar_pos + 3) % 130;
-          if (solar_pos < 40) {
-            // Vertikal runter
-            lv_obj_set_x(id(flow_segment_solar), 98);
-            lv_obj_set_y(id(flow_segment_solar), 190 + solar_pos);
-            lv_obj_set_width(id(flow_segment_solar), 4);
-            lv_obj_set_height(id(flow_segment_solar), 20);
-          } else if (solar_pos < 48) {
-            // Kurve
-            int curve = solar_pos - 40;
-            lv_obj_set_x(id(flow_segment_solar), 98 + curve * 2);
-            lv_obj_set_y(id(flow_segment_solar), 230 + curve);
-            lv_obj_set_width(id(flow_segment_solar), 4);
-            lv_obj_set_height(id(flow_segment_solar), 4);
+          // PV Flow (folgt der Kurve: vertikal -> Kurve -> horizontal zu Home)
+          pv_pos = (pv_pos + 2) % 140;
+          if (pv_pos < 50) {
+            // Vertikal nach unten
+            lv_obj_set_x(id(flow_pv), 238);
+            lv_obj_set_y(id(flow_pv), 130 + pv_pos);
+            lv_obj_set_width(id(flow_pv), 4);
+            lv_obj_set_height(id(flow_pv), 15);
+          } else if (pv_pos < 90) {
+            // Kurve nach rechts
+            int c = pv_pos - 50;
+            lv_obj_set_x(id(flow_pv), 240 + c * 3);
+            lv_obj_set_y(id(flow_pv), 180 + c * 1.45);
+            lv_obj_set_width(id(flow_pv), 8);
+            lv_obj_set_height(id(flow_pv), 8);
           } else {
-            // Horizontal rechts
-            lv_obj_set_x(id(flow_segment_solar), 120 + (solar_pos - 48) * 1.1);
-            lv_obj_set_y(id(flow_segment_solar), 236);
-            lv_obj_set_width(id(flow_segment_solar), 20);
-            lv_obj_set_height(id(flow_segment_solar), 4);
+            // Horizontal zu Home
+            int c = pv_pos - 90;
+            lv_obj_set_x(id(flow_pv), 310 + c);
+            lv_obj_set_y(id(flow_pv), 236);
+            lv_obj_set_width(id(flow_pv), 15);
+            lv_obj_set_height(id(flow_pv), 4);
           }
           
-          // Grid Segment Animation (horizontal rechts -> vertical hoch)
-          grid_pos = (grid_pos + 3) % 120;
-          if (grid_pos < 90) {
-            // Horizontal rechts
-            lv_obj_set_x(id(flow_segment_grid), 270 + grid_pos);
-            lv_obj_set_y(id(flow_segment_grid), 218);
-            lv_obj_set_width(id(flow_segment_grid), 20);
-            lv_obj_set_height(id(flow_segment_grid), 4);
-          } else if (grid_pos < 105) {
-            // Kurve
-            int curve = grid_pos - 90;
-            lv_obj_set_x(id(flow_segment_grid), 360 + curve);
-            lv_obj_set_y(id(flow_segment_grid), 218 - curve);
-            lv_obj_set_width(id(flow_segment_grid), 4);
-            lv_obj_set_height(id(flow_segment_grid), 4);
+          // Grid Flow (horizontal zu Home)
+          grid_pos = (grid_pos + 2) % 180;
+          lv_obj_set_x(id(flow_grid), 130 + grid_pos);
+          lv_obj_set_y(id(flow_grid), 238);
+          lv_obj_set_width(id(flow_grid), 15);
+          lv_obj_set_height(id(flow_grid), 4);
+          
+          // Battery Flow (folgt der Kurve: vertikal -> Kurve -> horizontal zu Home)
+          battery_pos = (battery_pos + 2) % 140;
+          if (battery_pos < 50) {
+            // Vertikal nach oben
+            lv_obj_set_x(id(flow_battery), 238);
+            lv_obj_set_y(id(flow_battery), 350 - battery_pos);
+            lv_obj_set_width(id(flow_battery), 4);
+            lv_obj_set_height(id(flow_battery), 15);
+          } else if (battery_pos < 90) {
+            // Kurve nach rechts
+            int c = battery_pos - 50;
+            lv_obj_set_x(id(flow_battery), 240 + c * 3);
+            lv_obj_set_y(id(flow_battery), 300 - c * 1.2);
+            lv_obj_set_width(id(flow_battery), 8);
+            lv_obj_set_height(id(flow_battery), 8);
           } else {
-            // Vertikal hoch
-            lv_obj_set_x(id(flow_segment_grid), 376);
-            lv_obj_set_y(id(flow_segment_grid), 195 - (grid_pos - 105) * 0.3);
-            lv_obj_set_width(id(flow_segment_grid), 4);
-            lv_obj_set_height(id(flow_segment_grid), 20);
+            // Horizontal zu Home
+            int c = battery_pos - 90;
+            lv_obj_set_x(id(flow_battery), 310 + c);
+            lv_obj_set_y(id(flow_battery), 244);
+            lv_obj_set_width(id(flow_battery), 15);
+            lv_obj_set_height(id(flow_battery), 4);
           }
           
-          // Battery Segment Animation (vertical hoch -> horizontal rechts)
-          battery_pos = (battery_pos + 3) % 130;
-          if (battery_pos < 45) {
-            // Vertikal hoch
-            lv_obj_set_x(id(flow_segment_battery), 98);
-            lv_obj_set_y(id(flow_segment_battery), 330 - battery_pos);
-            lv_obj_set_width(id(flow_segment_battery), 4);
-            lv_obj_set_height(id(flow_segment_battery), 20);
-          } else if (battery_pos < 53) {
-            // Kurve
-            int curve = battery_pos - 45;
-            lv_obj_set_x(id(flow_segment_battery), 98 + curve * 2);
-            lv_obj_set_y(id(flow_segment_battery), 285 - curve);
-            lv_obj_set_width(id(flow_segment_battery), 4);
-            lv_obj_set_height(id(flow_segment_battery), 4);
-          } else {
-            // Horizontal rechts
-            lv_obj_set_x(id(flow_segment_battery), 120 + (battery_pos - 53) * 1.1);
-            lv_obj_set_y(id(flow_segment_battery), 273);
-            lv_obj_set_width(id(flow_segment_battery), 20);
-            lv_obj_set_height(id(flow_segment_battery), 4);
-          }
+          // Home Flow (horizontal innerhalb Home)
+          lv_obj_set_x(id(flow_home), 360);
+          lv_obj_set_y(id(flow_home), 238);
           
-          // Home Segment Animation (direkt horizontal)
-          home_pos = (home_pos + 3) % 60;
-          lv_obj_set_x(id(flow_segment_home), 270 + home_pos);
-          lv_obj_set_y(id(flow_segment_home), 258);
-          lv_obj_set_width(id(flow_segment_home), 20);
-          lv_obj_set_height(id(flow_segment_home), 4);
+          // Gas Flow (vertikal nach unten zu Home)
+          gas_pos = (gas_pos + 2) % 60;
+          lv_obj_set_x(id(flow_gas), 358);
+          lv_obj_set_y(id(flow_gas), 130 + gas_pos);
+          lv_obj_set_width(id(flow_gas), 4);
+          lv_obj_set_height(id(flow_gas), 15);
           
-          // Backup Segment Animation (horizontal rechts -> vertical runter)
-          backup_pos = (backup_pos + 3) % 120;
-          if (backup_pos < 90) {
-            // Horizontal rechts
-            lv_obj_set_x(id(flow_segment_backup), 270 + backup_pos);
-            lv_obj_set_y(id(flow_segment_backup), 293);
-            lv_obj_set_width(id(flow_segment_backup), 20);
-            lv_obj_set_height(id(flow_segment_backup), 4);
-          } else if (backup_pos < 105) {
-            // Kurve
-            int curve = backup_pos - 90;
-            lv_obj_set_x(id(flow_segment_backup), 360 + curve);
-            lv_obj_set_y(id(flow_segment_backup), 293 + curve);
-            lv_obj_set_width(id(flow_segment_backup), 4);
-            lv_obj_set_height(id(flow_segment_backup), 4);
-          } else {
-            // Vertikal runter
-            lv_obj_set_x(id(flow_segment_backup), 376);
-            lv_obj_set_y(id(flow_segment_backup), 320 + (backup_pos - 105) * 0.7);
-            lv_obj_set_width(id(flow_segment_backup), 4);
-            lv_obj_set_height(id(flow_segment_backup), 20);
-          }
+          // Water Flow (vertikal nach oben zu Home)
+          water_pos = (water_pos + 2) % 60;
+          lv_obj_set_x(id(flow_water), 358);
+          lv_obj_set_y(id(flow_water), 350 - water_pos);
+          lv_obj_set_width(id(flow_water), 4);
+          lv_obj_set_height(id(flow_water), 15);
