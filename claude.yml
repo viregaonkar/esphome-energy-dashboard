@@ -645,8 +645,8 @@ interval:
           static int water_pos = 0;
           
           // PV Flow (eckig: vertikal runter, dann horizontal rechts ins Haus)
-          pv_pos = (pv_pos + 2) % 180;
-          if (pv_pos < 90) {
+          pv_pos = (pv_pos + 2) % 150;
+          if (pv_pos < 75) {
             // Vertikal nach unten
             lv_obj_set_x(id(flow_pv), 258);
             lv_obj_set_y(id(flow_pv), 130 + pv_pos);
@@ -654,7 +654,7 @@ interval:
             lv_obj_set_height(id(flow_pv), 15);
           } else {
             // Horizontal nach rechts ins Haus
-            int c = pv_pos - 90;
+            int c = pv_pos - 75;
             lv_obj_set_x(id(flow_pv), 260 + c);
             lv_obj_set_y(id(flow_pv), 218);
             lv_obj_set_width(id(flow_pv), 15);
@@ -669,8 +669,8 @@ interval:
           lv_obj_set_height(id(flow_grid), 4);
           
           // Battery Flow (eckig: vertikal hoch, dann horizontal rechts ins Haus)
-          battery_pos = (battery_pos + 2) % 180;
-          if (battery_pos < 90) {
+          battery_pos = (battery_pos + 2) % 150;
+          if (battery_pos < 75) {
             // Vertikal nach oben
             lv_obj_set_x(id(flow_battery), 258);
             lv_obj_set_y(id(flow_battery), 350 - battery_pos);
@@ -678,7 +678,7 @@ interval:
             lv_obj_set_height(id(flow_battery), 15);
           } else {
             // Horizontal nach rechts ins Haus
-            int c = battery_pos - 90;
+            int c = battery_pos - 75;
             lv_obj_set_x(id(flow_battery), 260 + c);
             lv_obj_set_y(id(flow_battery), 258);
             lv_obj_set_width(id(flow_battery), 15);
@@ -690,7 +690,7 @@ interval:
           lv_obj_set_y(id(flow_home), 238);
           
           // Gas Flow (vertikal nach unten zu Home)
-          gas_pos = (gas_pos + 2) % 60;
+          gas_pos = (gas_pos + 2) % 45;
           lv_obj_set_x(id(flow_gas), 398);
           lv_obj_set_y(id(flow_gas), 130 + gas_pos);
           lv_obj_set_width(id(flow_gas), 4);
@@ -705,8 +705,8 @@ interval:
           
           // Grid -> Battery Flow (horizontal rechts bis Mitte, dann vertikal runter)
           static int grid_battery_pos = 0;
-          grid_battery_pos = (grid_battery_pos + 2) % 200;
-          if (grid_battery_pos < 90) {
+          grid_battery_pos = (grid_battery_pos + 2) % 150;
+          if (grid_battery_pos < 75) {
             // Horizontal nach rechts
             lv_obj_set_x(id(flow_grid_battery), 130 + grid_battery_pos);
             lv_obj_set_y(id(flow_grid_battery), 258);
@@ -714,27 +714,27 @@ interval:
             lv_obj_set_height(id(flow_grid_battery), 4);
           } else {
             // Vertikal nach unten
-            int c = grid_battery_pos - 90;
+            int c = grid_battery_pos - 75;
             lv_obj_set_x(id(flow_grid_battery), 218);
-            lv_obj_set_y(id(flow_grid_battery), 260 + c * 0.82);
+            lv_obj_set_y(id(flow_grid_battery), 260 + c);
             lv_obj_set_width(id(flow_grid_battery), 4);
             lv_obj_set_height(id(flow_grid_battery), 15);
           }
           
           // Grid -> PV Flow (horizontal rechts bis Mitte, dann vertikal hoch)
           static int pv_grid_pos = 0;
-          pv_grid_pos = (pv_grid_pos + 2) % 200;
-          if (pv_grid_pos < 90) {
+          pv_grid_pos = (pv_grid_pos + 2) % 150;
+          if (pv_grid_pos < 75) {
             // Horizontal nach rechts
             lv_obj_set_x(id(flow_pv_grid), 130 + pv_grid_pos);
             lv_obj_set_y(id(flow_pv_grid), 218);
             lv_obj_set_width(id(flow_pv_grid), 15);
             lv_obj_set_height(id(flow_pv_grid), 4);
           } else {
-            // Vertikal nach oben
-            int c = pv_grid_pos - 90;
+            // Vertikal nach oben (Starthöhe um Element-Höhe korrigieren)
+            int c = pv_grid_pos - 75;
             lv_obj_set_x(id(flow_pv_grid), 218);
-            lv_obj_set_y(id(flow_pv_grid), 220 - c * 0.82);
+            lv_obj_set_y(id(flow_pv_grid), 205 - c);
             lv_obj_set_width(id(flow_pv_grid), 4);
             lv_obj_set_height(id(flow_pv_grid), 15);
           }
