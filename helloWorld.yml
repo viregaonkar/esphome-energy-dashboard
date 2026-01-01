@@ -1,0 +1,115 @@
+esphome:
+  name: "guition-display"
+  friendly_name: "Guition Display"
+
+esp32:
+  variant: esp32s3
+  framework:
+    type: esp-idf
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+logger:
+
+wifi:
+  ssid: "TMesh"
+  password: "yxcvbnm321"
+
+  ap:
+    ssid: "Guition Fallback"
+    password: "12345678"
+
+api:
+
+ota:
+  - platform: esphome
+    on_begin:
+      - light.turn_off:
+          id: display_backlight
+          transition_length: 0s
+      - lambda: "id(display_backlight).loop();"
+
+output:
+  - platform: ledc
+    id: backlight_output
+    pin: GPIO38
+    frequency: 150Hz
+    min_power: 0.01
+    zero_means_zero: true
+
+light:
+  - platform: monochromatic
+    name: "Backlight"
+    id: display_backlight
+    output: backlight_output
+    restore_mode: ALWAYS_ON
+    default_transition_length: 1s
+
+spi:
+  - id: lcd_spi
+    clk_pin: GPIO48
+    mosi_pin: GPIO47
+
+i2c:
+  - id: touchscreen_bus
+    sda: GPIO19
+    scl:
+      number: 45
+      ignore_strapping_warning: true
+
+display:
+  - platform: st7701s
+    id: tft_display
+    dimensions:
+      width: 480
+      height: 480
+    rotation: 270
+    spi_mode: MODE3
+    data_rate: 2MHz
+    color_order: RGB
+    invert_colors: false
+    cs_pin: 39
+    de_pin: 18
+    hsync_pin: 16
+    vsync_pin: 17
+    pclk_pin: 21
+    pclk_frequency: 12MHz
+    pclk_inverted: false
+    hsync_pulse_width: 8
+    hsync_front_porch: 10
+    hsync_back_porch: 20
+    vsync_pulse_width: 8
+    vsync_front_porch: 10
+    vsync_back_porch: 10
+    update_interval: never
+    auto_clear_enabled: false
+    init_sequence:
+      - 1
+      - [0xFF, 0x77, 0x01, 0x00, 0x00, 0x10]  # CMD2_BKSEL_BK0
+      - [0xCD, 0x00]  # disable MDT flag
+    data_pins:
+      red: [11, 12, 13, 14, 0]
+      green: [8, 20, 3, 46, 9, 10]
+      blue: [4, 5, 6, 7, 15]
+
+touchscreen:
+  - platform: gt911
+    id: tft_touch
+    display: tft_display
+    i2c_id: touchscreen_bus
+
+lvgl:
+  displays:
+    - tft_display
+  touchscreens:
+    - tft_touch
+  pages:
+    - id: main_page
+      bg_color: 0x000000
+      widgets:
+        - label:
+            text: "Hello World!"
+            align: center
+            text_color: 0xFFFFFF
