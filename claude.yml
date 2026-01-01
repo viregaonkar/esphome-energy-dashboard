@@ -159,73 +159,83 @@ lvgl:
     - id: main_page
       bg_color: 0x1a1a1a
       widgets:
-        # === Energiefluss Linien (dunkel/transparent) ===
+        # === Energiefluss Linien (eckig/rechtwinklig) ===
         
-        # PV -> Home (vertikal mit Kurve nach rechts)
+        # PV -> Home (vertikal runter, dann horizontal rechts ins Haus)
         - line:
             points:
-              - 240, 130
-              - 240, 180
-              - 242, 190
-              - 246, 200
-              - 252, 208
-              - 262, 216
-              - 275, 222
-              - 290, 228
-              - 310, 232
-              - 360, 238
+              - 260, 130
+              - 260, 220
+              - 310, 220
             line_color: 0x332211
             line_width: 3
-            line_rounded: true
+            line_rounded: false
         
         # Netz -> Home (horizontal)
         - line:
             points:
               - 130, 240
-              - 180, 240
-              - 220, 240
-              - 260, 240
               - 310, 240
             line_color: 0x223344
             line_width: 3
-            line_rounded: true
+            line_rounded: false
         
-        # Batterie -> Home (vertikal mit Kurve nach rechts)
+        # Batterie -> Home (vertikal hoch, dann horizontal rechts ins Haus)
         - line:
             points:
-              - 240, 350
-              - 240, 300
-              - 242, 290
-              - 246, 280
-              - 252, 272
-              - 262, 264
-              - 275, 258
-              - 290, 252
-              - 310, 248
-              - 360, 242
+              - 260, 350
+              - 260, 260
+              - 310, 260
             line_color: 0x332233
             line_width: 3
-            line_rounded: true
+            line_rounded: false
+        
+        # Grid -> Batterie (horizontal rechts, dann vertikal runter)
+        - line:
+            points:
+              - 130, 260
+              - 220, 260
+              - 220, 350
+            line_color: 0x223344
+            line_width: 3
+            line_rounded: false
+        
+        # Grid -> PV (horizontal rechts, dann vertikal hoch)
+        - line:
+            points:
+              - 130, 220
+              - 220, 220
+              - 220, 130
+            line_color: 0x332233
+            line_width: 3
+            line_rounded: false
+        
+        # PV -> Batterie (vertikal mittig)
+        - line:
+            points:
+              - 240, 130
+              - 240, 350
+            line_color: 0x332233
+            line_width: 3
+            line_rounded: false
         
         # Gas -> Home (vertikal nach unten)
         - line:
             points:
               - 360, 130
-              - 360, 160
               - 360, 190
             line_color: 0x332211
             line_width: 3
-            line_rounded: true
+            line_rounded: false
         
         # Wasser -> Home (vertikal nach oben)
         - line:
             points:
               - 360, 350
-              - 360, 320
               - 360, 290
             line_color: 0x223344
             line_width: 3
-            line_rounded: true
+            line_rounded: false
         
         # === Animierte Energiefluss Segmente ===
         - obj:
@@ -285,6 +295,36 @@ lvgl:
             width: 4
             height: 15
             bg_color: 0x00DDFF
+            radius: 2
+            border_width: 0
+        
+        - obj:
+            id: flow_grid_battery
+            x: 130
+            y: 258
+            width: 15
+            height: 4
+            bg_color: 0x00BBFF
+            radius: 2
+            border_width: 0
+        
+        - obj:
+            id: flow_pv_grid
+            x: 130
+            y: 218
+            width: 15
+            height: 4
+            bg_color: 0xFF3399
+            radius: 2
+            border_width: 0
+        
+        - obj:
+            id: flow_pv_battery
+            x: 238
+            y: 130
+            width: 4
+            height: 15
+            bg_color: 0xFF3399
             radius: 2
             border_width: 0
         
@@ -604,26 +644,19 @@ interval:
           static int gas_pos = 0;
           static int water_pos = 0;
           
-          // PV Flow (folgt der Kurve: vertikal -> Kurve -> horizontal zu Home)
-          pv_pos = (pv_pos + 2) % 140;
-          if (pv_pos < 50) {
+          // PV Flow (eckig: vertikal runter, dann horizontal rechts ins Haus)
+          pv_pos = (pv_pos + 2) % 160;
+          if (pv_pos < 90) {
             // Vertikal nach unten
-            lv_obj_set_x(id(flow_pv), 238);
+            lv_obj_set_x(id(flow_pv), 258);
             lv_obj_set_y(id(flow_pv), 130 + pv_pos);
             lv_obj_set_width(id(flow_pv), 4);
             lv_obj_set_height(id(flow_pv), 15);
-          } else if (pv_pos < 90) {
-            // Kurve nach rechts
-            int c = pv_pos - 50;
-            lv_obj_set_x(id(flow_pv), 240 + c * 3);
-            lv_obj_set_y(id(flow_pv), 180 + c * 1.45);
-            lv_obj_set_width(id(flow_pv), 8);
-            lv_obj_set_height(id(flow_pv), 8);
           } else {
-            // Horizontal zu Home
+            // Horizontal nach rechts ins Haus
             int c = pv_pos - 90;
-            lv_obj_set_x(id(flow_pv), 310 + c);
-            lv_obj_set_y(id(flow_pv), 236);
+            lv_obj_set_x(id(flow_pv), 260 + c);
+            lv_obj_set_y(id(flow_pv), 218);
             lv_obj_set_width(id(flow_pv), 15);
             lv_obj_set_height(id(flow_pv), 4);
           }
@@ -635,26 +668,19 @@ interval:
           lv_obj_set_width(id(flow_grid), 15);
           lv_obj_set_height(id(flow_grid), 4);
           
-          // Battery Flow (folgt der Kurve: vertikal -> Kurve -> horizontal zu Home)
-          battery_pos = (battery_pos + 2) % 140;
-          if (battery_pos < 50) {
+          // Battery Flow (eckig: vertikal hoch, dann horizontal rechts ins Haus)
+          battery_pos = (battery_pos + 2) % 160;
+          if (battery_pos < 90) {
             // Vertikal nach oben
-            lv_obj_set_x(id(flow_battery), 238);
+            lv_obj_set_x(id(flow_battery), 258);
             lv_obj_set_y(id(flow_battery), 350 - battery_pos);
             lv_obj_set_width(id(flow_battery), 4);
             lv_obj_set_height(id(flow_battery), 15);
-          } else if (battery_pos < 90) {
-            // Kurve nach rechts
-            int c = battery_pos - 50;
-            lv_obj_set_x(id(flow_battery), 240 + c * 3);
-            lv_obj_set_y(id(flow_battery), 300 - c * 1.2);
-            lv_obj_set_width(id(flow_battery), 8);
-            lv_obj_set_height(id(flow_battery), 8);
           } else {
-            // Horizontal zu Home
+            // Horizontal nach rechts ins Haus
             int c = battery_pos - 90;
-            lv_obj_set_x(id(flow_battery), 310 + c);
-            lv_obj_set_y(id(flow_battery), 244);
+            lv_obj_set_x(id(flow_battery), 260 + c);
+            lv_obj_set_y(id(flow_battery), 258);
             lv_obj_set_width(id(flow_battery), 15);
             lv_obj_set_height(id(flow_battery), 4);
           }
@@ -676,3 +702,47 @@ interval:
           lv_obj_set_y(id(flow_water), 350 - water_pos);
           lv_obj_set_width(id(flow_water), 4);
           lv_obj_set_height(id(flow_water), 15);
+          
+          // Grid -> Battery Flow (horizontal rechts bis Mitte, dann vertikal runter)
+          static int grid_battery_pos = 0;
+          grid_battery_pos = (grid_battery_pos + 2) % 200;
+          if (grid_battery_pos < 90) {
+            // Horizontal nach rechts
+            lv_obj_set_x(id(flow_grid_battery), 130 + grid_battery_pos);
+            lv_obj_set_y(id(flow_grid_battery), 258);
+            lv_obj_set_width(id(flow_grid_battery), 15);
+            lv_obj_set_height(id(flow_grid_battery), 4);
+          } else {
+            // Vertikal nach unten
+            int c = grid_battery_pos - 90;
+            lv_obj_set_x(id(flow_grid_battery), 218);
+            lv_obj_set_y(id(flow_grid_battery), 260 + c * 0.82);
+            lv_obj_set_width(id(flow_grid_battery), 4);
+            lv_obj_set_height(id(flow_grid_battery), 15);
+          }
+          
+          // Grid -> PV Flow (horizontal rechts bis Mitte, dann vertikal hoch)
+          static int pv_grid_pos = 0;
+          pv_grid_pos = (pv_grid_pos + 2) % 200;
+          if (pv_grid_pos < 90) {
+            // Horizontal nach rechts
+            lv_obj_set_x(id(flow_pv_grid), 130 + pv_grid_pos);
+            lv_obj_set_y(id(flow_pv_grid), 218);
+            lv_obj_set_width(id(flow_pv_grid), 15);
+            lv_obj_set_height(id(flow_pv_grid), 4);
+          } else {
+            // Vertikal nach oben
+            int c = pv_grid_pos - 90;
+            lv_obj_set_x(id(flow_pv_grid), 218);
+            lv_obj_set_y(id(flow_pv_grid), 220 - c * 0.82);
+            lv_obj_set_width(id(flow_pv_grid), 4);
+            lv_obj_set_height(id(flow_pv_grid), 15);
+          }
+          
+          // PV -> Battery Flow (vertikal mittig runter)
+          static int pv_battery_pos = 0;
+          pv_battery_pos = (pv_battery_pos + 2) % 220;
+          lv_obj_set_x(id(flow_pv_battery), 238);
+          lv_obj_set_y(id(flow_pv_battery), 130 + pv_battery_pos);
+          lv_obj_set_width(id(flow_pv_battery), 4);
+          lv_obj_set_height(id(flow_pv_battery), 15);
