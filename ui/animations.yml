@@ -149,7 +149,7 @@ interval:
           
           if (show_grid_home) {
             lv_obj_clear_flag(id(flow_grid), LV_OBJ_FLAG_HIDDEN);
-            grid_pos = (grid_pos + 2) % 270;
+            grid_pos = (grid_pos + 3) % 270;
             lv_obj_set_x(id(flow_grid), 130 + grid_pos);
             lv_obj_set_y(id(flow_grid), 238);
             lv_obj_set_width(id(flow_grid), 15);
@@ -191,14 +191,14 @@ interval:
           lv_obj_set_y(id(flow_home), 238);
           
           // Gas Flow (vertikal nach unten zu Home)
-          gas_pos = (gas_pos + 2) % 110;
+          gas_pos = (gas_pos + 1) % 110;
           lv_obj_set_x(id(flow_gas), 398);
           lv_obj_set_y(id(flow_gas), 130 + gas_pos);
           lv_obj_set_width(id(flow_gas), 4);
           lv_obj_set_height(id(flow_gas), 15);
           
           // Water Flow (vertikal nach oben zu Home)
-          water_pos = (water_pos + 2) % 110;
+          water_pos = (water_pos + 1) % 110;
           lv_obj_set_x(id(flow_water), 398);
           lv_obj_set_y(id(flow_water), 350 - water_pos);
           lv_obj_set_width(id(flow_water), 4);
