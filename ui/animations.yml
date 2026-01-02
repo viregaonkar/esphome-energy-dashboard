@@ -146,7 +146,7 @@ interval:
           if (show_battery_discharge) {
             lv_obj_clear_flag(id(flow_battery), LV_OBJ_FLAG_HIDDEN);
             battery_pos = (battery_pos + 2) % 215;
-            if (battery_pos < 75) {
+            if (battery_pos < 90) {
               // Vertikal nach oben
               lv_obj_set_x(id(flow_battery), 258);
               lv_obj_set_y(id(flow_battery), 350 - battery_pos);
@@ -154,7 +154,7 @@ interval:
               lv_obj_set_height(id(flow_battery), 15);
             } else {
               // Horizontal nach rechts ins Haus
-              int c = battery_pos - 75;
+              int c = battery_pos - 90;
               lv_obj_set_x(id(flow_battery), 260 + c);
               lv_obj_set_y(id(flow_battery), 258);
               lv_obj_set_width(id(flow_battery), 15);

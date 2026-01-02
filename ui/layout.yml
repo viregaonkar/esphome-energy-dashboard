@@ -340,7 +340,7 @@ lvgl:
               # Bezug mit Pfeil rechts
               - label:
                   align: CENTER
-                  y: 15
+                  y: 10
                   x: -28
                   text: "\U000F0054"
                   text_font: icons_16
@@ -349,7 +349,7 @@ lvgl:
               - label:
                   id: grid_bezug_label
                   align: CENTER
-                  y: 15
+                  y: 10
                   x: 5
                   text: "0.00"
                   text_font: roboto_12
@@ -359,7 +359,7 @@ lvgl:
               # Einspeisung mit Pfeil links
               - label:
                   align: CENTER
-                  y: 30
+                  y: 25
                   x: -28
                   text: "\U000F004D"
                   text_font: icons_16
@@ -368,7 +368,7 @@ lvgl:
               - label:
                   id: grid_einspeisung_label
                   align: CENTER
-                  y: 30
+                  y: 25
                   x: 5
                   text: "0.00"
                   text_font: roboto_12
