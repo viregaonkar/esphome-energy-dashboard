@@ -151,22 +151,22 @@ interval:
             lv_obj_set_height(id(flow_grid_battery), 15);
           }
           
-          // Grid -> PV Flow (horizontal rechts bis Mitte, dann vertikal hoch)
+          // PV -> Grid Flow (vertikal runter bis Mitte, dann horizontal links)
           static int pv_grid_pos = 0;
           pv_grid_pos = (pv_grid_pos + 2) % 215;
           if (pv_grid_pos < 75) {
-            // Horizontal nach rechts
-            lv_obj_set_x(id(flow_pv_grid), 130 + pv_grid_pos);
+            // Vertikal nach unten
+            lv_obj_set_x(id(flow_pv_grid), 218);
+            lv_obj_set_y(id(flow_pv_grid), 130 + pv_grid_pos);
+            lv_obj_set_width(id(flow_pv_grid), 4);
+            lv_obj_set_height(id(flow_pv_grid), 15);
+          } else {
+            // Horizontal nach links
+            int c = pv_grid_pos - 75;
+            lv_obj_set_x(id(flow_pv_grid), 203 - c);
             lv_obj_set_y(id(flow_pv_grid), 218);
             lv_obj_set_width(id(flow_pv_grid), 15);
             lv_obj_set_height(id(flow_pv_grid), 4);
-          } else {
-            // Vertikal nach oben (Starthöhe um Element-Höhe korrigieren)
-            int c = pv_grid_pos - 75;
-            lv_obj_set_x(id(flow_pv_grid), 218);
-            lv_obj_set_y(id(flow_pv_grid), 205 - c);
-            lv_obj_set_width(id(flow_pv_grid), 4);
-            lv_obj_set_height(id(flow_pv_grid), 15);
           }
           
           // PV -> Battery Flow (vertikal mittig runter)
