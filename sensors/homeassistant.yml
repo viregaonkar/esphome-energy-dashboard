@@ -1,0 +1,43 @@
+# Home Assistant Sensoren und Zeit
+
+# Home Assistant Sensoren
+sensor:
+  - platform: homeassistant
+    id: solar_power
+    entity_id: sensor.solar_power
+    internal: true
+  
+  - platform: homeassistant
+    id: grid_power
+    entity_id: sensor.grid_power
+    internal: true
+  
+  - platform: homeassistant
+    id: battery_power
+    entity_id: sensor.battery_power
+    internal: true
+  
+  - platform: homeassistant
+    id: home_power
+    entity_id: sensor.home_power
+    internal: true
+  
+  - platform: homeassistant
+    id: battery_soc
+    entity_id: sensor.battery_soc
+    internal: true
+  
+  - platform: homeassistant
+    id: gas_power
+    entity_id: sensor.gaszahler_m3
+    internal: true
+  
+  - platform: homeassistant
+    id: water_power
+    entity_id: sensor.water_power
+    internal: true
+
+# Zeit von Home Assistant
+time:
+  - platform: homeassistant
+    id: ha_time

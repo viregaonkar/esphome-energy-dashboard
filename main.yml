@@ -1,0 +1,20 @@
+# Energie Dashboard - Hauptkonfiguration
+# Modulare Struktur für bessere Wartbarkeit
+
+esphome:
+  name: "energy-dashboard"
+  friendly_name: "Energie Dashboard"
+
+# Hardware Konfiguration
+<<: !include base/hardware.yml
+
+# Netzwerk und Kommunikation
+<<: !include base/network.yml
+
+# Home Assistant Integration
+<<: !include sensors/homeassistant.yml
+
+# UI Komponenten
+<<: !include ui/fonts.yml
+<<: !include ui/layout.yml
+<<: !include ui/animations.yml

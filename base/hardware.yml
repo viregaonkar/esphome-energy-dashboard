@@ -1,6 +1,4 @@
-esphome:
-  name: "guition-display"
-  friendly_name: "Guition Display"
+# Hardware Konfiguration für ESP32-S3 Display
 
 esp32:
   variant: esp32s3
@@ -11,47 +9,13 @@ psram:
   mode: octal
   speed: 80MHz
 
-logger:
-
-wifi:
-  ssid: "TMesh"
-  password: "yxcvbnm321"
-
-  ap:
-    ssid: "Guition Fallback"
-    password: "12345678"
-
-api:
-
-ota:
-  - platform: esphome
-    on_begin:
-      - light.turn_off:
-          id: display_backlight
-          transition_length: 0s
-      - lambda: "id(display_backlight).loop();"
-
-output:
-  - platform: ledc
-    id: backlight_output
-    pin: GPIO38
-    frequency: 150Hz
-    min_power: 0.01
-    zero_means_zero: true
-
-light:
-  - platform: monochromatic
-    name: "Backlight"
-    id: display_backlight
-    output: backlight_output
-    restore_mode: ALWAYS_ON
-    default_transition_length: 1s
-
+# SPI für Display
 spi:
   - id: lcd_spi
     clk_pin: GPIO48
     mosi_pin: GPIO47
 
+# I2C für Touchscreen
 i2c:
   - id: touchscreen_bus
     sda: GPIO19
@@ -59,6 +23,7 @@ i2c:
       number: 45
       ignore_strapping_warning: true
 
+# Display Konfiguration
 display:
   - platform: st7701s
     id: tft_display
@@ -87,29 +52,16 @@ display:
     auto_clear_enabled: false
     init_sequence:
       - 1
-      - [0xFF, 0x77, 0x01, 0x00, 0x00, 0x10]  # CMD2_BKSEL_BK0
-      - [0xCD, 0x00]  # disable MDT flag
+      - [0xFF, 0x77, 0x01, 0x00, 0x00, 0x10]
+      - [0xCD, 0x00]
     data_pins:
       red: [11, 12, 13, 14, 0]
       green: [8, 20, 3, 46, 9, 10]
       blue: [4, 5, 6, 7, 15]
 
+# Touchscreen
 touchscreen:
   - platform: gt911
     id: tft_touch
     display: tft_display
     i2c_id: touchscreen_bus
-
-lvgl:
-  displays:
-    - tft_display
-  touchscreens:
-    - tft_touch
-  pages:
-    - id: main_page
-      bg_color: 0x000000
-      widgets:
-        - label:
-            text: "Hello World!"
-            align: center
-            text_color: 0xFFFFFF

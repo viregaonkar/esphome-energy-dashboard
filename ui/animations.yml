@@ -1,0 +1,178 @@
+# Animationen und Updates
+
+# Updates
+interval:
+  - interval: 1s
+    then:
+      - lvgl.label.update:
+          id: pv_value
+          text: !lambda |-
+            if (id(solar_power).has_state()) {
+              static char buf[8];
+              snprintf(buf, sizeof(buf), "%.2f", id(solar_power).state);
+              return buf;
+            }
+            return "0.00";
+      
+      - lvgl.label.update:
+          id: grid_value
+          text: !lambda |-
+            if (id(grid_power).has_state()) {
+              static char buf[8];
+              snprintf(buf, sizeof(buf), "%.2f", id(grid_power).state);
+              return buf;
+            }
+            return "0.00";
+      
+      - lvgl.label.update:
+          id: home_value
+          text: !lambda |-
+            if (id(home_power).has_state()) {
+              static char buf[8];
+              snprintf(buf, sizeof(buf), "%.2f", id(home_power).state);
+              return buf;
+            }
+            return "0.00";
+      
+      - lvgl.label.update:
+          id: battery_value
+          text: !lambda |-
+            if (id(battery_power).has_state()) {
+              static char buf[8];
+              snprintf(buf, sizeof(buf), "%.2f", id(battery_power).state);
+              return buf;
+            }
+            return "0.00";
+      
+      - lvgl.label.update:
+          id: gas_value
+          text: !lambda |-
+            if (id(gas_power).has_state()) {
+              static char buf[8];
+              snprintf(buf, sizeof(buf), "%.2f", id(gas_power).state);
+              return buf;
+            }
+            return "0.00";
+      
+      - lvgl.label.update:
+          id: water_value
+          text: !lambda |-
+            if (id(water_power).has_state()) {
+              static char buf[8];
+              snprintf(buf, sizeof(buf), "%.2f", id(water_power).state);
+              return buf;
+            }
+            return "0.00";
+
+  # Animation - animierte Segmente entlang der Kurven
+  - interval: 30ms
+    then:
+      - lambda: |-
+          static int pv_pos = 0;
+          static int grid_pos = 0;
+          static int battery_pos = 0;
+          static int gas_pos = 0;
+          static int water_pos = 0;
+          
+          // PV Flow (eckig: vertikal runter, dann horizontal rechts ins Haus)
+          pv_pos = (pv_pos + 2) % 215;
+          if (pv_pos < 75) {
+            // Vertikal nach unten
+            lv_obj_set_x(id(flow_pv), 258);
+            lv_obj_set_y(id(flow_pv), 130 + pv_pos);
+            lv_obj_set_width(id(flow_pv), 4);
+            lv_obj_set_height(id(flow_pv), 15);
+          } else {
+            // Horizontal nach rechts ins Haus
+            int c = pv_pos - 75;
+            lv_obj_set_x(id(flow_pv), 260 + c);
+            lv_obj_set_y(id(flow_pv), 218);
+            lv_obj_set_width(id(flow_pv), 15);
+            lv_obj_set_height(id(flow_pv), 4);
+          }
+          
+          // Grid Flow (horizontal zu Home)
+          grid_pos = (grid_pos + 2) % 270;
+          lv_obj_set_x(id(flow_grid), 130 + grid_pos);
+          lv_obj_set_y(id(flow_grid), 238);
+          lv_obj_set_width(id(flow_grid), 15);
+          lv_obj_set_height(id(flow_grid), 4);
+          
+          // Battery Flow (eckig: vertikal hoch, dann horizontal rechts ins Haus)
+          battery_pos = (battery_pos + 2) % 215;
+          if (battery_pos < 75) {
+            // Vertikal nach oben
+            lv_obj_set_x(id(flow_battery), 258);
+            lv_obj_set_y(id(flow_battery), 350 - battery_pos);
+            lv_obj_set_width(id(flow_battery), 4);
+            lv_obj_set_height(id(flow_battery), 15);
+          } else {
+            // Horizontal nach rechts ins Haus
+            int c = battery_pos - 75;
+            lv_obj_set_x(id(flow_battery), 260 + c);
+            lv_obj_set_y(id(flow_battery), 258);
+            lv_obj_set_width(id(flow_battery), 15);
+            lv_obj_set_height(id(flow_battery), 4);
+          }
+          
+          // Home Flow (horizontal innerhalb Home)
+          lv_obj_set_x(id(flow_home), 360);
+          lv_obj_set_y(id(flow_home), 238);
+          
+          // Gas Flow (vertikal nach unten zu Home)
+          gas_pos = (gas_pos + 2) % 110;
+          lv_obj_set_x(id(flow_gas), 398);
+          lv_obj_set_y(id(flow_gas), 130 + gas_pos);
+          lv_obj_set_width(id(flow_gas), 4);
+          lv_obj_set_height(id(flow_gas), 15);
+          
+          // Water Flow (vertikal nach oben zu Home)
+          water_pos = (water_pos + 2) % 110;
+          lv_obj_set_x(id(flow_water), 398);
+          lv_obj_set_y(id(flow_water), 350 - water_pos);
+          lv_obj_set_width(id(flow_water), 4);
+          lv_obj_set_height(id(flow_water), 15);
+          
+          // Grid -> Battery Flow (horizontal rechts bis Mitte, dann vertikal runter)
+          static int grid_battery_pos = 0;
+          grid_battery_pos = (grid_battery_pos + 2) % 215;
+          if (grid_battery_pos < 75) {
+            // Horizontal nach rechts
+            lv_obj_set_x(id(flow_grid_battery), 130 + grid_battery_pos);
+            lv_obj_set_y(id(flow_grid_battery), 258);
+            lv_obj_set_width(id(flow_grid_battery), 15);
+            lv_obj_set_height(id(flow_grid_battery), 4);
+          } else {
+            // Vertikal nach unten
+            int c = grid_battery_pos - 75;
+            lv_obj_set_x(id(flow_grid_battery), 218);
+            lv_obj_set_y(id(flow_grid_battery), 260 + c);
+            lv_obj_set_width(id(flow_grid_battery), 4);
+            lv_obj_set_height(id(flow_grid_battery), 15);
+          }
+          
+          // Grid -> PV Flow (horizontal rechts bis Mitte, dann vertikal hoch)
+          static int pv_grid_pos = 0;
+          pv_grid_pos = (pv_grid_pos + 2) % 215;
+          if (pv_grid_pos < 75) {
+            // Horizontal nach rechts
+            lv_obj_set_x(id(flow_pv_grid), 130 + pv_grid_pos);
+            lv_obj_set_y(id(flow_pv_grid), 218);
+            lv_obj_set_width(id(flow_pv_grid), 15);
+            lv_obj_set_height(id(flow_pv_grid), 4);
+          } else {
+            // Vertikal nach oben (Starthöhe um Element-Höhe korrigieren)
+            int c = pv_grid_pos - 75;
+            lv_obj_set_x(id(flow_pv_grid), 218);
+            lv_obj_set_y(id(flow_pv_grid), 205 - c);
+            lv_obj_set_width(id(flow_pv_grid), 4);
+            lv_obj_set_height(id(flow_pv_grid), 15);
+          }
+          
+          // PV -> Battery Flow (vertikal mittig runter)
+          static int pv_battery_pos = 0;
+          pv_battery_pos = (pv_battery_pos + 2) % 270;
+          lv_obj_set_x(id(flow_pv_battery), 238);
+          lv_obj_set_y(id(flow_pv_battery), 130 + pv_battery_pos);
+          lv_obj_set_width(id(flow_pv_battery), 4);
+          lv_obj_set_height(id(flow_pv_battery), 15);
