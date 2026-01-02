@@ -25,6 +25,11 @@ sensor:
     internal: true
   
   - platform: homeassistant
+    id: grid_feed_in
+    entity_id: sensor.deye_wechselrichter_deye_taglich_energie_eingespiesen
+    internal: true
+  
+  - platform: homeassistant
     id: home_power
     entity_id: sensor.strom_tagesverbrauch
     internal: true

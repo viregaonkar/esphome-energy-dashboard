@@ -17,12 +17,17 @@ interval:
       - lvgl.label.update:
           id: grid_value
           text: !lambda |-
+            float bezug = 0.0;
+            float einspeisung = 0.0;
             if (id(grid_power).has_state() && !isnan(id(grid_power).state)) {
-              static char buf[8];
-              snprintf(buf, sizeof(buf), "%.2f", id(grid_power).state);
-              return buf;
+              bezug = id(grid_power).state;
             }
-            return "0.00";
+            if (id(grid_feed_in).has_state() && !isnan(id(grid_feed_in).state)) {
+              einspeisung = id(grid_feed_in).state;
+            }
+            static char buf[100];
+            snprintf(buf, sizeof(buf), "%.2f / #BB33FF %.2f#", bezug, einspeisung);
+            return buf;
       
       - lvgl.label.update:
           id: home_value
@@ -171,21 +176,32 @@ interval:
           }
           
           // PV -> Grid Flow (vertikal runter bis Mitte, dann horizontal links)
-          static int pv_grid_pos = 0;
-          pv_grid_pos = (pv_grid_pos + 2) % 215;
-          if (pv_grid_pos < 75) {
-            // Vertikal nach unten
-            lv_obj_set_x(id(flow_pv_grid), 218);
-            lv_obj_set_y(id(flow_pv_grid), 130 + pv_grid_pos);
-            lv_obj_set_width(id(flow_pv_grid), 4);
-            lv_obj_set_height(id(flow_pv_grid), 15);
+          // Nur animieren wenn Einspeisung > 0
+          bool show_pv_grid = false;
+          if (id(grid_feed_in).has_state() && !isnan(id(grid_feed_in).state)) {
+            show_pv_grid = id(grid_feed_in).state > 0.0;
+          }
+          
+          if (show_pv_grid) {
+            lv_obj_clear_flag(id(flow_pv_grid), LV_OBJ_FLAG_HIDDEN);
+            static int pv_grid_pos = 0;
+            pv_grid_pos = (pv_grid_pos + 2) % 215;
+            if (pv_grid_pos < 75) {
+              // Vertikal nach unten
+              lv_obj_set_x(id(flow_pv_grid), 218);
+              lv_obj_set_y(id(flow_pv_grid), 130 + pv_grid_pos);
+              lv_obj_set_width(id(flow_pv_grid), 4);
+              lv_obj_set_height(id(flow_pv_grid), 15);
+            } else {
+              // Horizontal nach links
+              int c = pv_grid_pos - 75;
+              lv_obj_set_x(id(flow_pv_grid), 203 - c);
+              lv_obj_set_y(id(flow_pv_grid), 218);
+              lv_obj_set_width(id(flow_pv_grid), 15);
+              lv_obj_set_height(id(flow_pv_grid), 4);
+            }
           } else {
-            // Horizontal nach links
-            int c = pv_grid_pos - 75;
-            lv_obj_set_x(id(flow_pv_grid), 203 - c);
-            lv_obj_set_y(id(flow_pv_grid), 218);
-            lv_obj_set_width(id(flow_pv_grid), 15);
-            lv_obj_set_height(id(flow_pv_grid), 4);
+            lv_obj_add_flag(id(flow_pv_grid), LV_OBJ_FLAG_HIDDEN);
           }
           
           // PV -> Battery Flow (vertikal mittig runter)

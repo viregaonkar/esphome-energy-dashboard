@@ -341,9 +341,10 @@ lvgl:
                   id: grid_value
                   align: CENTER
                   y: 10
-                  text: "0.00"
-                  text_font: roboto_16
+                  text: "0.00 / 0.00"
+                  text_font: roboto_14
                   text_color: 0xFFFFFF
+                  recolor: true
               
               - label:
                   align: CENTER
