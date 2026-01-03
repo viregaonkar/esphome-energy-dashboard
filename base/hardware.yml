@@ -65,3 +65,12 @@ touchscreen:
     id: tft_touch
     display: tft_display
     i2c_id: touchscreen_bus
+    on_touch:
+      then:
+        - if:
+            condition:
+              lvgl.page.is_showing: page_dashboard
+            then:
+              - lvgl.page.show: page_power_table
+            else:
+              - lvgl.page.show: page_dashboard
