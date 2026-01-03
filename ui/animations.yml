@@ -23,7 +23,7 @@ interval:
             snprintf(buf, sizeof(buf), "%s. %02d.%02d.", wochentage[dow - 1], time.day_of_month, time.month);
             return buf;
 
-      - delay: 0.1s
+      - delay: 0.2s
 
       # Update Top Left Info Box
       - lvgl.label.update:
@@ -54,7 +54,7 @@ interval:
             snprintf(buf, sizeof(buf), "%.0f W", id(current_heating_rod_power).has_state() && !isnan(id(current_heating_rod_power).state) ? id(current_heating_rod_power).state : 0.0);
             return buf;
 
-      - delay: 0.1s
+      - delay: 0.2s
 
       - lvgl.label.update:
           id: pv_value
@@ -77,8 +77,8 @@ interval:
             snprintf(buf, sizeof(buf), "%6.2f kWh", id(grid_feed_in).has_state() && !isnan(id(grid_feed_in).state) ? id(grid_feed_in).state : 0.0);
             return buf;
 
-      - delay: 0.1s
-      
+      - delay: 0.2s
+
       - lvgl.label.update:
           id: home_value
           text: !lambda |-
@@ -100,6 +100,8 @@ interval:
             snprintf(buf, sizeof(buf), "%.2f kWh", id(battery_discharge).has_state() && !isnan(id(battery_discharge).state) ? id(battery_discharge).state : 0.0);
             return buf;
 
+      - delay: 0.2s
+
       - lvgl.label.update:
           id: heating_rod_value
           text: !lambda |-
@@ -107,8 +109,6 @@ interval:
             snprintf(buf, sizeof(buf), "%.2f", id(heating_rod_daily_energy).has_state() && !isnan(id(heating_rod_daily_energy).state) ? id(heating_rod_daily_energy).state : 0.0);
             return buf;
 
-      - delay: 0.1s
-      
       - lvgl.arc.update:
           id: battery_arc
           value: !lambda |-
@@ -135,7 +135,7 @@ interval:
             snprintf(buf, sizeof(buf), "%.2f", id(water_power).has_state() && !isnan(id(water_power).state) ? id(water_power).state : 0.0);
             return buf;
 
-      - delay: 0.1s
+      - delay: 0.2s
 
       - lambda: |-
           static int last_pv_angle = -1;
@@ -214,12 +214,11 @@ interval:
           }
 
 
-  - interval: 30ms
+  - interval: 50ms
     then:
       - lambda: |-
           static int pv_pos = 0, grid_pos = 0, battery_pos = 0, gas_pos = 0, water_pos = 0;
           static int grid_battery_pos = 0, pv_grid_pos = 0, pv_battery_pos = 0;
-          static int home_heating_pos = 0;
           
           bool show_pv_home = id(solar_power).has_state() && !isnan(id(solar_power).state) && id(solar_power).state > 0.0;
           if (show_pv_home) {
@@ -336,10 +335,16 @@ interval:
             lv_obj_add_flag(id(flow_pv_battery), LV_OBJ_FLAG_HIDDEN);
           }
 
+  - interval: 100ms
+    then:
+      - lambda: |-
+          static int home_heating_pos = 0;
+          
           bool show_home_heating = id(heating_rod_daily_energy).has_state() && !isnan(id(heating_rod_daily_energy).state) && id(heating_rod_daily_energy).state > 0.0;
           if (show_home_heating) {
             lv_obj_clear_flag(id(flow_home_heating), LV_OBJ_FLAG_HIDDEN);
-            home_heating_pos = (home_heating_pos + 2) % 17;
+            
+            home_heating_pos = (home_heating_pos + 1) % 17;
             
             // Diagonal movement from 365,205 to 348,188
             // Delta x = -17, Delta y = -17

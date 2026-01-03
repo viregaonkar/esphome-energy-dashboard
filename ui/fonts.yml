@@ -27,8 +27,8 @@ font:
       "\U000F12A3",  # battery-high
       "\U000F0238",  # flame (Gas)
       "\U000F058C",  # water
-      "\U000F0E1C",  # water-boiler (Heizstab)
-      "\U000F0E39",  # transmission-tower (Grid)
+      "\U000F0F92",  # water-boiler (Heizstab)
+      "\U000F0D3E",  # transmission-tower (Grid)
     ]
   
   - file: "fonts/materialdesignicons-webfont.ttf"
