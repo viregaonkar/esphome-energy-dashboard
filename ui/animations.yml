@@ -47,6 +47,13 @@ interval:
             snprintf(buf, sizeof(buf), "%.0f W", id(current_pv_surplus).has_state() && !isnan(id(current_pv_surplus).state) ? id(current_pv_surplus).state : 0.0);
             return buf;
 
+      - lvgl.label.update:
+          id: lbl_heating_rod
+          text: !lambda |-
+            static char buf[16];
+            snprintf(buf, sizeof(buf), "%.0f W", id(current_heating_rod_power).has_state() && !isnan(id(current_heating_rod_power).state) ? id(current_heating_rod_power).state : 0.0);
+            return buf;
+
       - delay: 0.1s
 
       - lvgl.label.update:

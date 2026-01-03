@@ -69,6 +69,11 @@ sensor:
     entity_id: sensor.pv_uberschuss
     internal: true
 
+  - platform: homeassistant
+    id: current_heating_rod_power
+    entity_id: sensor.ac_elwa_2_power_elwa_2
+    internal: true
+
 # Zeit von Home Assistant
 time:
   - platform: homeassistant

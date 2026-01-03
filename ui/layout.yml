@@ -86,19 +86,27 @@ lvgl:
         # === Info Box (Unten Links) ===
         - obj:
             x: 10
-            y: 350
+            y: 310
             width: 160
-            height: 100
+            height: 140
             bg_color: 0x222222
             radius: 8
             border_width: 1
             border_color: 0x444444
             scrollbar_mode: "off"
             widgets:
+              # Title
+              - label:
+                  align: TOP_MID
+                  y: 5
+                  text: "Aktuelle Leistung"
+                  text_font: roboto_14
+                  text_color: 0xFFFFFF
+
               # Haus Verbrauch
               - label:
                   x: 5
-                  y: 5
+                  y: 30
                   text: "Verbrauch:"
                   text_font: roboto_14
                   text_color: 0xAAAAAA
@@ -106,7 +114,7 @@ lvgl:
                   id: lbl_home_consumption
                   align: TOP_RIGHT
                   x: -5
-                  y: 5
+                  y: 30
                   text: "-- W"
                   text_font: roboto_14
                   text_color: 0xFFFFFF
@@ -114,7 +122,7 @@ lvgl:
               # Netz Leistung
               - label:
                   x: 5
-                  y: 30
+                  y: 55
                   text: "Netzbezug:"
                   text_font: roboto_14
                   text_color: 0xAAAAAA
@@ -122,7 +130,7 @@ lvgl:
                   id: lbl_grid_power
                   align: TOP_RIGHT
                   x: -5
-                  y: 30
+                  y: 55
                   text: "-- W"
                   text_font: roboto_14
                   text_color: 0xFFFFFF
@@ -130,7 +138,7 @@ lvgl:
               # PV Überschuss
               - label:
                   x: 5
-                  y: 55
+                  y: 80
                   text: "Ueberschuss:"
                   text_font: roboto_14
                   text_color: 0xAAAAAA
@@ -138,7 +146,23 @@ lvgl:
                   id: lbl_pv_surplus
                   align: TOP_RIGHT
                   x: -5
-                  y: 55
+                  y: 80
+                  text: "-- W"
+                  text_font: roboto_14
+                  text_color: 0xFFFFFF
+
+              # Heizstab
+              - label:
+                  x: 5
+                  y: 105
+                  text: "Heizstab:"
+                  text_font: roboto_14
+                  text_color: 0xAAAAAA
+              - label:
+                  id: lbl_heating_rod
+                  align: TOP_RIGHT
+                  x: -5
+                  y: 105
                   text: "-- W"
                   text_font: roboto_14
                   text_color: 0xFFFFFF
