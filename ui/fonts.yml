@@ -4,18 +4,22 @@ font:
   - file: "gfonts://Roboto"
     id: roboto_12
     size: 12
+    glyphs: " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°ÄÖÜäöüß"
   
   - file: "gfonts://Roboto"
     id: roboto_14
     size: 14
+    glyphs: " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°ÄÖÜäöüß"
   
   - file: "gfonts://Roboto"
     id: roboto_16
     size: 16
+    glyphs: " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°ÄÖÜäöüß"
   
   - file: "gfonts://Roboto"
     id: roboto_24
     size: 24
+    glyphs: " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~°ÄÖÜäöüß"
   
   - file: "fonts/materialdesignicons-webfont.ttf"
     id: icons_32

@@ -85,15 +85,7 @@ sensor:
     entity_id: sensor.ac_elwa_2_power_elwa_2
     internal: true
 
-  - platform: homeassistant
-    id: current_battery_charge_power
-    entity_id: sensor.deye_wechselrichter_deye_batterie_ladeleistung
-    internal: true
 
-  - platform: homeassistant
-    id: current_battery_discharge_power
-    entity_id: sensor.deye_wechselrichter_deye_batterie_entladeleistung
-    internal: true
 
 # Zeit von Home Assistant
 time:
