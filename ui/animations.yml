@@ -1,6 +1,7 @@
 interval:
   - interval: 1s
     then:
+      - script.execute: update_power_table_labels
       # Prüfen ob Dashboard aktiv ist
       - if:
           condition:

@@ -1,10 +1,5 @@
 # Loading Screen
 
-globals:
-  - id: ha_connected
-    type: bool
-    initial_value: 'false'
-
 script:
   - id: on_ha_connected
     then:

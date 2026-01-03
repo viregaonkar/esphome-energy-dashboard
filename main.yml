@@ -5,18 +5,12 @@ esphome:
   name: "energy-dashboard"
   friendly_name: "Energie Dashboard"
 
-# Hardware Konfiguration
-<<: !include base/hardware.yml
-
-# Netzwerk und Kommunikation
-<<: !include base/network.yml
-
-# Home Assistant Integration
-<<: !include sensors/homeassistant.yml
-
-# UI Komponenten
-<<: !include ui/fonts.yml
-<<: !include ui/loading.yml
-<<: !include ui/layout.yml
-<<: !include ui/animations.yml
-<<: !include ui/power_table_updates.yml
+packages:
+  hardware: !include base/hardware.yml
+  network: !include base/network.yml
+  ha_sensors: !include sensors/homeassistant.yml
+  ui_fonts: !include ui/fonts.yml
+  ui_loading: !include ui/loading.yml
+  ui_layout: !include ui/layout.yml
+  ui_animations: !include ui/animations.yml
+  ui_power_table: !include ui/power_table_updates.yml
