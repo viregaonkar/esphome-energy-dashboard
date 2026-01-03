@@ -218,7 +218,7 @@ interval:
     then:
       - lambda: |-
           static int pv_pos = 0, grid_pos = 0, battery_pos = 0, gas_pos = 0, water_pos = 0;
-          static int grid_battery_pos = 0, pv_grid_pos = 0, pv_battery_pos = 0;
+          static int grid_battery_pos = 0, pv_grid_pos = 0, pv_battery_pos = 0, home_heating_pos = 0;
           
           bool show_pv_home = id(solar_power).has_state() && !isnan(id(solar_power).state) && id(solar_power).state > 0.0;
           if (show_pv_home) {
@@ -334,20 +334,15 @@ interval:
           } else {
             lv_obj_add_flag(id(flow_pv_battery), LV_OBJ_FLAG_HIDDEN);
           }
-
-  - interval: 100ms
-    then:
-      - lambda: |-
-          static int home_heating_pos = 0;
           
           bool show_home_heating = id(heating_rod_daily_energy).has_state() && !isnan(id(heating_rod_daily_energy).state) && id(heating_rod_daily_energy).state > 0.0;
           if (show_home_heating) {
             lv_obj_clear_flag(id(flow_home_heating), LV_OBJ_FLAG_HIDDEN);
             
-            home_heating_pos = (home_heating_pos + 1) % 17;
+            home_heating_pos = (home_heating_pos + 1) % 45;
             
-            // Diagonal movement from 365,205 to 348,188
-            // Delta x = -17, Delta y = -17
+            // Diagonal movement from 365,205 to 320,160 (center of heating rod circle)
+            // Delta x = -45, Delta y = -45
             
             lv_obj_set_x(id(flow_home_heating), 365 - home_heating_pos);
             lv_obj_set_y(id(flow_home_heating), 205 - home_heating_pos);
@@ -357,3 +352,5 @@ interval:
           } else {
             lv_obj_add_flag(id(flow_home_heating), LV_OBJ_FLAG_HIDDEN);
           }
+
+
