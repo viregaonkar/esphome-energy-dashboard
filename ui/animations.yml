@@ -133,12 +133,13 @@ interval:
           float battery = id(battery_discharge).has_state() && !isnan(id(battery_discharge).state) ? id(battery_discharge).state : 0.0;
           float solar = id(solar_power).has_state() && !isnan(id(solar_power).state) ? id(solar_power).state : 0.0;
           float feed_in = id(grid_feed_in).has_state() && !isnan(id(grid_feed_in).state) ? id(grid_feed_in).state : 0.0;
+          float battery_charge_val = id(battery_charge).has_state() && !isnan(id(battery_charge).state) ? id(battery_charge).state : 0.0;
           
           if (home < 0) home = 0;
           if (battery < 0) battery = 0;
           
-          // PV Eigenverbrauch direkt aus Solar - Einspeisung berechnen
-          float pv = solar - feed_in;
+          // PV Eigenverbrauch direkt aus Solar - Einspeisung - Batterieladung berechnen
+          float pv = solar - feed_in - battery_charge_val;
           if (pv < 0) pv = 0;
           if (pv > home) pv = home; // Darf nicht größer als Hausverbrauch sein
           
