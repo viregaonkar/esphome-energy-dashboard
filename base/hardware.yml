@@ -71,6 +71,12 @@ touchscreen:
             condition:
               lvgl.page.is_showing: page_dashboard
             then:
-              - lvgl.page.show: page_power_table
+              - lvgl.page.show:
+                  id: page_power_table
+                  animation: move_left
+                  time: 300ms
             else:
-              - lvgl.page.show: page_dashboard
+              - lvgl.page.show:
+                  id: page_dashboard
+                  animation: move_right
+                  time: 300ms

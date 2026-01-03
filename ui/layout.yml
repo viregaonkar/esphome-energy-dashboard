@@ -1,7 +1,7 @@
 # LVGL UI Layout
 
 lvgl:
-  log_level: DEBUG
+  log_level: NONE
   color_depth: 16
   
   displays:
