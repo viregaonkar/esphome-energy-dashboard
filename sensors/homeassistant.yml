@@ -72,12 +72,12 @@ sensor:
     
   - platform: homeassistant
     id: current_solar_power
-    entity_id: sensor.deye_wechselrichter_deye_pv_leistung
+    entity_id: sensor.aktuelle_pv_leistung
     internal: true
     
   - platform: homeassistant
     id: current_pv_surplus
-    entity_id: sensor.pv_uberschuss
+    entity_id: sensor.aktueller_pv_uberschuss
     internal: true
 
   - platform: homeassistant
