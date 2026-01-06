@@ -2,6 +2,8 @@
 
 A modular ESPHome project that visualizes daily energy distribution similar to Home Assistant, with real-time data on solar production, grid consumption/feed-in, battery status, and gas consumption, on the [Guition-ESP32-S3-4848S040](https://devices.esphome.io/devices/guition-esp32-s3-4848s040/) display.
 
+<img src="docs/screenshot.jpg" width="400" alt="Energy Dashboard Screenshot">
+
 ## Prerequisites
 
 - **Hardware**: Guition-ESP32-S3-4848S040 (ESP32-S3 with 4.8" IPS touch display)
