@@ -83,7 +83,7 @@ Adjust the entity IDs as needed.
 After successful startup, the display shows a loading screen followed by the main dashboard. Touch the screen to switch between dashboard and detailed power table.
 
 - **Dashboard**: Overview with energy flow diagrams and current values.
-- **Power Table**: Detailed table with historical data.
+- **Power Table**: Detailed table showing the current load.
 
 The backlight turns off during OTA updates and can be controlled via Home Assistant.
 
